@@ -7,10 +7,10 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class retiController : MonoBehaviour
+public class ResultController : MonoBehaviour
 {
     float time = 0;
-
+    
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -18,9 +18,9 @@ public class retiController : MonoBehaviour
             SceneManager.LoadScene("Title");
         }
 
-        time += 1;
+        time += Time.deltaTime;
 
-        if(time >= 1000)
+        if(time >= 10)
         {
             time = 0;
 

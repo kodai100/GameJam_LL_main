@@ -1,11 +1,11 @@
 ﻿/*
- タイトルからリザルトへの遷移
+ タイトルからメインへの遷移
 */
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class tireController : MonoBehaviour
+public class TitleController : MonoBehaviour
 {
 
     void Update()

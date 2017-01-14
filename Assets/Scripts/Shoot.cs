@@ -17,11 +17,13 @@ public class Shoot : MonoBehaviour {
     float distance;
     float currentLength = 0f;
     bool isShooting;
+
+    CombineProcess combineProcess;
     #endregion private
 
     #region MonoBehaviourFuncs
     void Start() {
-
+        combineProcess = gameObject.GetComponent<CombineProcess>();
     }
     
     void Update() {
@@ -142,6 +144,9 @@ public class Shoot : MonoBehaviour {
         Destroy(enemy);
 
         StaticManager.enemyCount++;
+
+        combineProcess.Combine();
+
         Debug.Log("Killed. total : " + StaticManager.enemyCount);
 
         yield break;

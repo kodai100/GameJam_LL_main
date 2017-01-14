@@ -28,12 +28,14 @@ public class EnemyController : MonoBehaviour
 
 	private Transform m_PlayerTransform;
 
-	void Awake()
-	{
+	void Awake() {
 		m_State = State.Idle;
 		m_IsGround = false;
 		m_ScaredTimer = 0f;
 		m_Rigidbody = GetComponent<Rigidbody>();
+
+        // Random Color
+        GetComponent<Renderer>().material.SetColor("_Color", Color.HSVToRGB(Random.Range(0f,1f),1f,1f));
 
 		// Fix later.
 		m_PlayerTransform = GameObject.Find("Player").transform;
