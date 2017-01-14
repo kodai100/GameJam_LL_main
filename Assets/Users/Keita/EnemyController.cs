@@ -11,6 +11,15 @@ public class EnemyController : MonoBehaviour
 
 	void Update ()
 	{
-		m_CharacterController.SimpleMove(transform.forward);
+		var scale = transform.localScale.x;
+
+		m_CharacterController.SimpleMove(transform.forward * Scale2Speed(scale));
+	}
+
+	private float Scale2Speed(float scale)
+	{
+		var rate = 0.5f;
+
+		return rate * scale;
 	}
 }
