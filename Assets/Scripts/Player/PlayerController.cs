@@ -21,9 +21,6 @@ public class PlayerController : MonoBehaviour {
 		mKeyH       = Input.GetAxis("Horizontal");
 		mKeyW       = Input.GetAxis("Vertical");
 		mKeyJump    = Input.GetButton("Jump");
-
-		//Debug.Log (GameObject.FindGameObjectWithTag("MainCamera").transform.position.z);
-		//GameObject.FindGameObjectWithTag("MainCamera").transform.position -= new Vector3(0f, 0f, Time.deltaTime);
 	}
 
 	void FixedUpdate(){
@@ -61,7 +58,9 @@ public class PlayerController : MonoBehaviour {
 		transform.localScale -= new Vector3 (enemyScale, enemyScale, enemyScale);
 
 		// 大きさに合わせてカメラを引く
-		//GameObject.FindGameObjectWithTag("MainCamera").transform.position -= new Vector3(0f, 0f, enemyScale);
+		Transform target 	= transform.GetChild(0).transform;
+		Vector3 angle 		= (target.position - GameObject.FindGameObjectWithTag ("MainCamera").transform.position).normalized;
+		target.position -= angle * enemyScale;
 
 		// 移動力やジャンプ力が減る(TODO)
 
