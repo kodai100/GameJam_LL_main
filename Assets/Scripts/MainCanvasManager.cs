@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class MainCanvasManager : MonoBehaviour {
 
     Text counter;
+    Text remainTime;
+
+    float time = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -13,11 +16,16 @@ public class MainCanvasManager : MonoBehaviour {
             if (child.name == "Counter") {
                 counter = child.gameObject.GetComponent<Text>();
             }
+            if (child.name == "Time") {
+                remainTime = child.gameObject.GetComponent<Text>();
+            }
         }
     }
 	
 	// Update is called once per frame
 	void Update () {
+        time += Time.deltaTime;
         counter.text = "Num : " + StaticManager.enemyCount;
+        remainTime.text = "Time : " + (StaticManager.gameLength - time).ToString("000.00");
     }
 }

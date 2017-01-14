@@ -3,26 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainManager : MonoBehaviour
-{
-	[SerializeField]
-	private float m_TimeLimit;
+public class MainManager : MonoBehaviour {
 
 	private static MainManager instance;
 
 	private float m_Stopwatch;
 
-	public MainManager Instance
-	{
-		get
-		{
-			if (instance != this)
-			{
+	public MainManager Instance {
+		get {
+			if (instance != this) {
 				GameObject.DestroyImmediate (this);
 				Debug.LogWarning ("There are two MainManager!!!");
 			}
-			else if (instance == null)
-			{
+			else if (instance == null) {
 				instance = this;
 			}
 
@@ -30,17 +23,14 @@ public class MainManager : MonoBehaviour
 		}
 	}
 
-	void Awake()
-	{
+	void Awake() {
 		m_Stopwatch = 0f;
 	}
 
-	void Update()
-	{
+	void Update() {
 		m_Stopwatch += Time.deltaTime;
 
-		if (m_Stopwatch > m_TimeLimit)
-		{
+		if (m_Stopwatch > StaticManager.gameLength) {
 			SceneManager.LoadScene ("Result");
 		}
 	}
