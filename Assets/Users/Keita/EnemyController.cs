@@ -5,25 +5,21 @@ public class EnemyController : MonoBehaviour
 	[SerializeField]
 	private float m_Visibility;
 
-	private CharacterController m_CharacterController;
-
 	private Transform m_PlayerTransform;
 
 	void Awake()
 	{
-		m_CharacterController = GetComponent<CharacterController>();
-
 		// Fix later.
 		m_PlayerTransform = GameObject.Find("Player").transform;
 	}
 
 	void Update ()
 	{
-		var scale = transform.localScale.x;
-
 		if (SearchPlayer())
 		{
-			m_CharacterController.SimpleMove(transform.forward * Scale2Speed(scale));
+			var scale = transform.localScale.x;
+
+			transform.Translate(Scale2Speed(scale) * Vector3.forward * Time.deltaTime);
 		}
 	}
 
