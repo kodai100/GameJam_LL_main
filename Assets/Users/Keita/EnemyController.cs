@@ -44,9 +44,12 @@ public class EnemyController : MonoBehaviour
 		if (!m_IsGround)
 			return;
 
-		if (SearchPlayer ())
-		{
+		if (SearchPlayer ()) {
 			m_State = transform.localScale.x < m_PlayerTransform.localScale.x ? State.RunAway : State.Approach;
+		}
+		else if (m_State == State.Approach)
+		{
+			m_State = State.Idle;
 		}
 		else if (m_State == State.RunAway)
 		{
