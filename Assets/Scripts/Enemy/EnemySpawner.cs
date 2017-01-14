@@ -14,6 +14,9 @@ public class EnemySpawner : MonoBehaviour
 	private float m_SpawnInterval;
 
 	[SerializeField]
+	private int m_InitPopulation;
+
+	[SerializeField]
 	private float m_SafetyRange;
 
 	[SerializeField]
@@ -28,6 +31,14 @@ public class EnemySpawner : MonoBehaviour
 		// Fix later.
 		m_PlayerTransform = GameObject.Find("Player").transform;
 		m_Timer = m_SpawnInterval;
+	}
+
+	void Start()
+	{
+		for (int i = 0; i < m_InitPopulation; i++)
+		{
+			Spawn ();
+		}
 	}
 
 	void Update()
@@ -54,7 +65,8 @@ public class EnemySpawner : MonoBehaviour
 				break;
 		}
 
-		Instantiate(m_EnemyPrefab, position, Quaternion.identity);
+		var go = (GameObject)Instantiate(m_EnemyPrefab, position, Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up));
+		go.transform.localScale = Random.Range (0.5f, 1.5f) * Vector3.one;
 	}
 
 	private Vector3 GetSpawnPosition()
