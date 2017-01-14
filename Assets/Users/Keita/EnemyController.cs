@@ -44,7 +44,8 @@ public class EnemyController : MonoBehaviour
 		if (!m_IsGround)
 			return;
 
-		if (SearchPlayer ()) {
+		if (SearchPlayer ())
+		{
 			m_State = transform.localScale.x < m_PlayerTransform.localScale.x ? State.RunAway : State.Approach;
 		}
 		else if (m_State == State.Approach)
@@ -60,7 +61,8 @@ public class EnemyController : MonoBehaviour
 		{
 			m_ScaredTimer -= Time.deltaTime;
 
-			if (m_ScaredTimer < 0f) {
+			if (m_ScaredTimer < 0f)
+			{
 				m_State = State.Idle;
 			}
 		}
@@ -97,9 +99,7 @@ public class EnemyController : MonoBehaviour
 
 	private void Walk()
 	{
-		float angle = Random.Range (-10f, 10f);
-
-		transform.Rotate (Vector3.up * angle);
+		transform.Rotate (Vector3.up * Random.Range (-10f, 10f));
 
 		m_Rigidbody.velocity = Scale2Speed(transform.localScale.x) * transform.forward / 5.0f;
 	}
@@ -109,6 +109,7 @@ public class EnemyController : MonoBehaviour
 		var dir = NormalizedXZDirection(transform.position, m_PlayerTransform.position);
 
 		transform.forward = Vector3.Lerp(transform.forward, -dir, Time.deltaTime * m_TurnSpeed);
+		transform.Rotate (Vector3.up * Random.Range (-10f, 10f));
 
 		m_Rigidbody.velocity = Scale2Speed(transform.localScale.x) * transform.forward;
 	}
