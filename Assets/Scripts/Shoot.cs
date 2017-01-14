@@ -17,13 +17,16 @@ public class Shoot : MonoBehaviour {
     float distance;
     float currentLength = 0f;
     bool isShooting;
+    Material playerMaterial;
 
     CombineProcess combineProcess;
+    Color nextPlayerColor;
     #endregion private
 
     #region MonoBehaviourFuncs
     void Start() {
         combineProcess = gameObject.GetComponent<CombineProcess>();
+        playerMaterial = GetComponent<Renderer>().material;
     }
     
     void Update() {
@@ -45,6 +48,7 @@ public class Shoot : MonoBehaviour {
                         distance = Vector3.Distance(enemy.transform.position, transform.position);
 
                         if(distance < maxArmDistance) {
+                            nextPlayerColor = enemy.GetComponent<Renderer>().material.GetColor("_Color");
                             arm.transform.LookAt(enemy.transform.position);
                             StartCoroutine(shootAnimationAndDestroy(enemy));
                         }
@@ -140,6 +144,8 @@ public class Shoot : MonoBehaviour {
         arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
 
         isShooting = false;
+
+        playerMaterial.SetColor("_Color", nextPlayerColor);
 
         Destroy(enemy);
 

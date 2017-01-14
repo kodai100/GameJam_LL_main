@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour
         GetComponent<Renderer>().material.SetColor("_Color", Color.HSVToRGB(Random.Range(0f,1f),1f,1f));
 
 		// Fix later.
-		m_PlayerTransform = GameObject.Find("Player").transform;
+		m_PlayerTransform = GameObject.Find("PlayerParent").transform;
 	}
 
 	void Update ()
