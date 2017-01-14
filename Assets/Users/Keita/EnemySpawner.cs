@@ -14,6 +14,9 @@ public class EnemySpawner : MonoBehaviour
 	private Vector3 m_SpawnAreaSize;
 
 	[SerializeField]
+	private float m_SpawnInterval;
+
+	[SerializeField]
 	private float m_SafetyRange;
 
 	[SerializeField]
@@ -21,10 +24,25 @@ public class EnemySpawner : MonoBehaviour
 
 	private Transform m_PlayerTransform;
 
+	private float m_Timer;
+
 	void Awake()
 	{
 		// Fix later.
 		m_PlayerTransform = GameObject.Find("Player").transform;
+		m_Timer = m_SpawnInterval;
+	}
+
+	void Update()
+	{
+		m_Timer -= Time.deltaTime;
+
+		if (m_Timer < 0f)
+		{
+			Vector3 pos = transform.position;
+
+			Instantiate(m_EnemyPrefab, pos, Quaternion.identity);
+		}
 	}
 
 #if UNITY_EDITOR
