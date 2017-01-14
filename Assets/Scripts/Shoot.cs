@@ -5,7 +5,6 @@ using UnityEngine;
 public class Shoot : MonoBehaviour {
 
     #region public
-    public Camera playerCamera;
     public float speed = 0.1f;
     public GameObject arm;
     public float maxArmDistance = 10f;
@@ -13,6 +12,7 @@ public class Shoot : MonoBehaviour {
     #endregion public
 
     #region private
+	Camera playerCamera;
     Vector3 dir;
     float distance;
     float currentLength = 0f;
@@ -27,6 +27,7 @@ public class Shoot : MonoBehaviour {
     void Start() {
         combineProcess = gameObject.GetComponent<CombineProcess>();
         playerMaterial = GetComponent<Renderer>().material;
+		playerCamera   = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
     
     void Update() {

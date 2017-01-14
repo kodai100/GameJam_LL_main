@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 400004}
   - component: {fileID: 5400000}
   - component: {fileID: 11400002}
-  - component: {fileID: 114042717167927642}
+  - component: {fileID: 114777251972746754}
   m_Layer: 0
   m_Name: FreeLookCameraRig
   m_TagString: Untagged
@@ -191,7 +191,7 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100004}
   m_IsPrefabParent: 1
---- !u!114 &114042717167927642
+--- !u!114 &114777251972746754
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -210,5 +210,5 @@ MonoBehaviour:
   m_TurnSmoothing: 0
   m_TiltMax: 75
   m_TiltMin: 45
-  m_LockCursor: 0
+  m_LockCursor: 1
   m_VerticalAutoReturn: 0
