@@ -30,7 +30,7 @@ public class Shoot : MonoBehaviour {
             if (!isShooting) {
 
                 RaycastHit hit;
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+                Ray ray = playerCamera.ScreenPointToRay(new Vector2(Screen.width * 0.5f, Screen.height * 0.5f));
 
                 if (Physics.Raycast(ray, out hit)) {
                     
