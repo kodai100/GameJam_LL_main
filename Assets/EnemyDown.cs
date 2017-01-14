@@ -10,10 +10,11 @@ using UnityEngine.UI;
 
 public class EnemyDown : MonoBehaviour
 {
+    int Down = StaticManager.enemyCount;
 
     //float Down = MainGameController.Down()
 
-    float Down = 30;
+    
     float i = 0;
 
     void Update()
