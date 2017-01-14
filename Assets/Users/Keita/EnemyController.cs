@@ -78,7 +78,7 @@ public class EnemyController : MonoBehaviour
 		switch (m_State)
 		{
 		case State.Idle:
-			m_Rigidbody.velocity = Vector3.zero;
+			Walk ();
 			break;
 
 		case State.RunAway:
@@ -93,6 +93,15 @@ public class EnemyController : MonoBehaviour
 			Approach ();
 			break;
 		}
+	}
+
+	private void Walk()
+	{
+		float angle = Random.Range (-10f, 10f);
+
+		transform.Rotate (Vector3.up * angle);
+
+		m_Rigidbody.velocity = Scale2Speed(transform.localScale.x) * transform.forward / 5.0f;
 	}
 
 	private void RunAway()
