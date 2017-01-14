@@ -7,51 +7,90 @@ public class Shoot : MonoBehaviour {
     public Camera playerCamera;
     public float speed = 0.1f;
 
-    private Vector3 dir;
-    private float distance;
+    public GameObject arm;
+
+    Vector3 dir;
+    float distance;
     float currentLength = 0f;
-
     bool isShooting;
-
-    // Use this for initialization
+    
     void Start() {
 
     }
-
-    // Update is called once per frame
+    
     void Update() {
         if (Input.GetMouseButtonDown(0)) {
 
-            // レイの交差判定
-            // レイが当たったオブジェクトを取得し、自分のポジションから角度を算出、その方向に射出
             if (!isShooting) {
+                isShooting = true;
 
                 RaycastHit hit;
                 Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
 
-				if (Physics.Raycast (ray, out hit)) {
-					Debug.Log ("Hit");
+                if (Physics.Raycast(ray, out hit)) {
+                    
+                    if (hit.collider.gameObject.tag == "Enemy") {
+                        Debug.Log("Enemy Hit");
 
-					isShooting = true;
+                        GameObject enemy = hit.collider.gameObject;
 
-					GameObject enemy = hit.collider.gameObject;
+                        dir = Vector3.Normalize(enemy.transform.position - transform.position);
+                        distance = Vector3.Distance(enemy.transform.position, transform.position);
 
-					dir = Vector3.Normalize (enemy.transform.position - transform.position);
-					distance = Vector3.Distance (enemy.transform.position, transform.position);
+                        arm.transform.LookAt(enemy.transform.position);
 
-					StartCoroutine (shootAnimation (enemy));
+                        StartCoroutine(shootAnimationAndDestroy(enemy));
+                    } else {
+                        dir = Vector3.Normalize(hit.point - transform.position);
+                        distance = Vector3.Distance(hit.point, transform.position);
+                        arm.transform.LookAt(hit.point);
+                        StartCoroutine(shootAnimation());
+                    }
 
-				}
+                } else {
+                    dir = Vector3.Normalize(playerCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position);
+                    distance = Vector3.Distance(playerCamera.ScreenToWorldPoint(Input.mousePosition), transform.position);
+                    arm.transform.LookAt(playerCamera.ScreenToWorldPoint(Input.mousePosition));
+                    StartCoroutine(shootAnimation());
+                }
             }
 
         }
     }
 
-    IEnumerator shootAnimation(GameObject enemy) {
+    IEnumerator shootAnimation() {
+        currentLength = 0f;
+        bool forward = true;
+
+        while (currentLength < 2f && forward) {
+            arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
+            arm.transform.position = transform.position + currentLength * dir * 0.5f;
+            currentLength += Mathf.Max(speed * (1 - currentLength / 2f), 0.1f);
+            yield return null;
+        }
+
+        forward = false;
+
+        while (currentLength > 0 && !forward) {
+            arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
+            arm.transform.position = transform.position + currentLength * dir * 0.5f;
+            currentLength -= speed * 0.3f;
+            yield return null;
+        }
+
+        currentLength = 0f;
+        isShooting = false;
+
+        yield break;
+    }
+
+    IEnumerator shootAnimationAndDestroy(GameObject enemy) {
         currentLength = 0f;
         bool forward = true;
 
         while(currentLength < distance && forward) {
+            arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
+            arm.transform.position = transform.position + currentLength * dir * 0.5f;
             currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
             yield return null;
         }
@@ -59,8 +98,10 @@ public class Shoot : MonoBehaviour {
         forward = false;
 
         while(currentLength > 0 && !forward) {
-            currentLength -= speed * 0.3f;
             enemy.transform.position = transform.position + currentLength * dir;
+            arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
+            arm.transform.position = transform.position + currentLength * dir * 0.5f;
+            currentLength -= speed * 0.3f;
             yield return null;
         }
 
@@ -68,6 +109,9 @@ public class Shoot : MonoBehaviour {
         isShooting = false;
 
         Destroy(enemy);
+
+        StaticManager.enemyCount++;
+        Debug.Log("Killed. total : " + StaticManager.enemyCount);
 
         yield break;
     }
