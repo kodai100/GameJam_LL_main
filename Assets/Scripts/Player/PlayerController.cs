@@ -21,11 +21,20 @@ public class PlayerController : MonoBehaviour {
 		mKeyH       = Input.GetAxis("Horizontal");
 		mKeyW       = Input.GetAxis("Vertical");
 		mKeyJump    = Input.GetButton("Jump");
+
+		//Debug.Log (GameObject.FindGameObjectWithTag("MainCamera").transform.position.z);
+		//GameObject.FindGameObjectWithTag("MainCamera").transform.position -= new Vector3(0f, 0f, Time.deltaTime);
 	}
 
 	void FixedUpdate(){
 
 		Move (mKeyH, mKeyW);
+
+		// Debug
+		if (mKeyJump) {
+			Combine (0.5f);
+			return;
+		}
 
 		// ジャンプ
 		if (mIsGround && mKeyJump) {
@@ -45,6 +54,18 @@ public class PlayerController : MonoBehaviour {
 
 		movement = movement.normalized * mMoveSpeed * Time.deltaTime;
 		GetComponent<Rigidbody>().MovePosition(transform.position + movement);
+	}
+
+	public void Combine(float enemyScale){
+
+		transform.localScale -= new Vector3 (enemyScale, enemyScale, enemyScale);
+
+		// 大きさに合わせてカメラを引く
+		//GameObject.FindGameObjectWithTag("MainCamera").transform.position -= new Vector3(0f, 0f, enemyScale);
+
+		// 移動力やジャンプ力が減る(TODO)
+
+
 	}
 
 	void OnCollisionEnter(Collision collision) {mIsGround = true; }
