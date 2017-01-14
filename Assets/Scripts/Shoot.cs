@@ -7,22 +7,22 @@ public class Shoot : MonoBehaviour {
     public Camera playerCamera;
     public float speed = 0.1f;
 
-    private Vector3 dir;
-    private float distance;
+    public GameObject arm;
+
+    Vector3 dir;
+    float distance;
     float currentLength = 0f;
-
     bool isShooting;
-
-    // Use this for initialization
+    
     void Start() {
 
     }
-
-    // Update is called once per frame
+    
     void Update() {
         if (Input.GetMouseButtonDown(0)) {
 
             if (!isShooting) {
+                isShooting = true;
 
                 RaycastHit hit;
                 Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
@@ -32,35 +32,48 @@ public class Shoot : MonoBehaviour {
                     if (hit.collider.gameObject.tag == "Enemy") {
                         Debug.Log("Enemy Hit");
 
-                        isShooting = true;
                         GameObject enemy = hit.collider.gameObject;
 
                         dir = Vector3.Normalize(enemy.transform.position - transform.position);
                         distance = Vector3.Distance(enemy.transform.position, transform.position);
 
+                        arm.transform.LookAt(enemy.transform.position);
+
                         StartCoroutine(shootAnimationAndDestroy(enemy));
+                    } else {
+                        dir = Vector3.Normalize(hit.point - transform.position);
+                        distance = Vector3.Distance(hit.point, transform.position);
+                        arm.transform.LookAt(hit.point);
+                        StartCoroutine(shootAnimation());
                     }
 
                 } else {
-                    StartCoroutine(shootAnimation(Input.mousePosition));
+                    dir = Vector3.Normalize(playerCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position);
+                    distance = Vector3.Distance(playerCamera.ScreenToWorldPoint(Input.mousePosition), transform.position);
+                    arm.transform.LookAt(playerCamera.ScreenToWorldPoint(Input.mousePosition));
+                    StartCoroutine(shootAnimation());
                 }
             }
 
         }
     }
 
-    IEnumerator shootAnimation(Vector3 position) {
+    IEnumerator shootAnimation() {
         currentLength = 0f;
         bool forward = true;
 
         while (currentLength < 2f && forward) {
-            currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
+            arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
+            arm.transform.position = transform.position + currentLength * dir * 0.5f;
+            currentLength += Mathf.Max(speed * (1 - currentLength / 2f), 0.1f);
             yield return null;
         }
 
         forward = false;
 
         while (currentLength > 0 && !forward) {
+            arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
+            arm.transform.position = transform.position + currentLength * dir * 0.5f;
             currentLength -= speed * 0.3f;
             yield return null;
         }
@@ -76,6 +89,8 @@ public class Shoot : MonoBehaviour {
         bool forward = true;
 
         while(currentLength < distance && forward) {
+            arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
+            arm.transform.position = transform.position + currentLength * dir * 0.5f;
             currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
             yield return null;
         }
@@ -83,8 +98,10 @@ public class Shoot : MonoBehaviour {
         forward = false;
 
         while(currentLength > 0 && !forward) {
-            currentLength -= speed * 0.3f;
             enemy.transform.position = transform.position + currentLength * dir;
+            arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
+            arm.transform.position = transform.position + currentLength * dir * 0.5f;
+            currentLength -= speed * 0.3f;
             yield return null;
         }
 
@@ -92,6 +109,9 @@ public class Shoot : MonoBehaviour {
         isShooting = false;
 
         Destroy(enemy);
+
+        StaticManager.enemyCount++;
+        Debug.Log("Killed. total : " + StaticManager.enemyCount);
 
         yield break;
     }
