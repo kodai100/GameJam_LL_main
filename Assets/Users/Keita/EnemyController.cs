@@ -5,6 +5,9 @@ public class EnemyController : MonoBehaviour
 	[SerializeField]
 	private float m_Visibility;
 
+	[SerializeField]
+	private float m_TurnSpeed;
+
 	private Transform m_PlayerTransform;
 
 	void Awake()
@@ -17,10 +20,40 @@ public class EnemyController : MonoBehaviour
 	{
 		if (SearchPlayer())
 		{
-			var scale = transform.localScale.x;
-
-			transform.Translate(Scale2Speed(scale) * Vector3.forward * Time.deltaTime);
+			if (transform.localScale.x < m_PlayerTransform.localScale.x)
+			{
+				RunAway();
+			}
+			else
+			{
+				Approach();
+			}
 		}
+	}
+
+	private void RunAway()
+	{
+		var dir = NormalizedXZDirection(transform.position, m_PlayerTransform.position);
+
+		transform.forward = Vector3.Lerp(transform.forward, -dir, Time.deltaTime);
+
+		Move();
+	}
+
+	private void Approach()
+	{
+		var dir = NormalizedXZDirection(transform.position, m_PlayerTransform.position);
+
+		transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * m_TurnSpeed);
+
+		Move();
+	}
+
+	private void Move()
+	{
+		var scale = transform.localScale.x;
+
+		transform.Translate(Scale2Speed(scale) * Vector3.forward * Time.deltaTime * m_TurnSpeed);
 	}
 
 	private bool SearchPlayer()
@@ -33,6 +66,13 @@ public class EnemyController : MonoBehaviour
 		var rate = 0.5f;
 
 		return rate * scale;
+	}
+
+	private Vector3 NormalizedXZDirection(Vector3 a, Vector3 b)
+	{
+		var dir = b - a;
+		dir.y = 0f;
+		return dir.normalized;
 	}
 
 #if UNITY_EDITOR
