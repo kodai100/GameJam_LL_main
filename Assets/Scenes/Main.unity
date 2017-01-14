@@ -209,8 +209,8 @@ MonoBehaviour:
   m_Target: {fileID: 321944856}
   m_AutoTargetPlayer: 1
   m_UpdateType: 0
-  m_MoveSpeed: 1
-  m_TurnSpeed: 1.5
+  m_MoveSpeed: 5
+  m_TurnSpeed: 5
   m_TurnSmoothing: 0
   m_TiltMax: 75
   m_TiltMin: 45
