@@ -9,6 +9,11 @@ public class CombineProcess : MonoBehaviour{
 
 	int mCnt = 0;
 	int mId  = 1;
+	Material playerMaterial;
+
+	void Awake(){
+		playerMaterial = GetComponent<Renderer>().material;
+	}
 
 	public void Combine(){
 		
@@ -34,6 +39,23 @@ public class CombineProcess : MonoBehaviour{
 		next.SetActive (true);
 		next.GetComponent<CombineProcess> ().SetId (mId + 1);
 		gameObject.SetActive (false);
+
+	}
+
+	void OnCollisionEnter(Collision other) {
+	
+		if(other.gameObject.tag == "Enemy"){
+
+			playerMaterial.SetColor("_Color", other.gameObject.GetComponent<Renderer>().material.GetColor("_Color"));
+
+			Destroy(other.gameObject);
+
+			StaticManager.enemyCount++;
+
+			Combine();
+
+			Debug.Log("Killed. total : " + StaticManager.enemyCount);
+		}
 
 	}
 
