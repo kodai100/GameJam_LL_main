@@ -33,11 +33,6 @@ public class PlayerController : MonoBehaviour {
 			mTime = 0f;
 		}
 
-		// debug
-		if(Input.GetButton("Cancel")){
-			gameObject.GetComponent<CombineProcess> ().Combine ();
-		}
-
 	}
 
 	void Move(float h, float w){
@@ -50,7 +45,8 @@ public class PlayerController : MonoBehaviour {
 		movement.y = 0.0f;
 
 		movement = movement.normalized * mMoveSpeed * Time.deltaTime;
-		GetComponent<Rigidbody>().MovePosition(transform.position + movement);
+		transform.parent.position += movement;
+		//GetComponent<Rigidbody>().MovePosition(transform.position + movement);
 	}
 		
 	// 真下にRayを飛ばして接地してるかを判定
