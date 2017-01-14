@@ -36,10 +36,38 @@ public class EnemySpawner : MonoBehaviour
 
 		if (m_Timer < 0f)
 		{
-			Vector3 pos = transform.position;
+			Vector3 position = Vector3.zero;
 
-			Instantiate(m_EnemyPrefab, pos, Quaternion.identity);
+			// Prevent Infinite Loop.
+			for (int i = 0; i < 10; i++)
+			{
+				position = GetSpawnPosition();
+
+				if (SqrDistanceXZ(position, m_PlayerTransform.position) > m_SafetyRange * m_SafetyRange)
+					break;
+			}
+
+			Instantiate(m_EnemyPrefab, position, Quaternion.identity);
 		}
+	}
+
+	private Vector3 GetSpawnPosition()
+	{
+		Vector3 pos = Vector3.zero;
+		var halfWidth = m_EnemyPrefab.transform.localScale.x / 2f;
+
+		pos.x = Random.Range(transform.position.x - m_SpawnAreaSize.x / 2f + halfWidth, transform.position.x + m_SpawnAreaSize.x / 2f - halfWidth);
+		pos.y = transform.position.y + m_SpawnAreaSize.y;
+		pos.z = Random.Range(transform.position.z - m_SpawnAreaSize.z / 2f + halfWidth, transform.position.z + m_SpawnAreaSize.z / 2f - halfWidth);
+
+		return pos;
+	}
+
+	private float SqrDistanceXZ(Vector3 a, Vector3 b)
+	{
+		var dir = a - b;
+		dir.y = 0f;
+		return Vector3.SqrMagnitude(dir);
 	}
 
 #if UNITY_EDITOR

@@ -433,10 +433,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowSpawnArea: 1
-  m_SpawnAreaCenter: {x: 0, y: 0, z: 0}
   m_SpawnAreaSize: {x: 10, y: 5, z: 10}
-  m_SafetyRange: 0
-  m_EnemyPrefab: {fileID: 0}
+  m_SpawnInterval: 0.5
+  m_SafetyRange: 3
+  m_EnemyPrefab: {fileID: 1007486291775362, guid: 5066d391cceb74f868a1b959e6aa4029,
+    type: 2}
 --- !u!4 &2041070553
 Transform:
   m_ObjectHideFlags: 0
