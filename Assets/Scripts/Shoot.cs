@@ -25,22 +25,23 @@ public class Shoot : MonoBehaviour {
             // レイの交差判定
             // レイが当たったオブジェクトを取得し、自分のポジションから角度を算出、その方向に射出
             if (!isShooting) {
-                isShooting = true;
 
                 RaycastHit hit;
                 Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out hit)) {
-                    Debug.Log("Hit");
+				if (Physics.Raycast (ray, out hit)) {
+					Debug.Log ("Hit");
 
-                    GameObject enemy = hit.collider.gameObject;
+					isShooting = true;
 
-                    dir = Vector3.Normalize(enemy.transform.position - transform.position);
-                    distance = Vector3.Distance(enemy.transform.position, transform.position);
+					GameObject enemy = hit.collider.gameObject;
 
-                    StartCoroutine(shootAnimation(enemy));
+					dir = Vector3.Normalize (enemy.transform.position - transform.position);
+					distance = Vector3.Distance (enemy.transform.position, transform.position);
 
-                }
+					StartCoroutine (shootAnimation (enemy));
+
+				}
             }
 
         }
