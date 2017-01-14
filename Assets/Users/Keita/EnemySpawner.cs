@@ -8,9 +8,6 @@ public class EnemySpawner : MonoBehaviour
 #endif
 
 	[SerializeField]
-	private Vector3 m_SpawnAreaCenter;
-
-	[SerializeField]
 	private Vector3 m_SpawnAreaSize;
 
 	[SerializeField]
@@ -51,7 +48,7 @@ public class EnemySpawner : MonoBehaviour
 		if (m_ShowSpawnArea)
 		{
 			Gizmos.color = Color.blue;
-			Gizmos.DrawWireCube(m_SpawnAreaCenter + new Vector3(0f, m_SpawnAreaSize.y / 2f, 0f), m_SpawnAreaSize);
+			Gizmos.DrawWireCube(transform.position + new Vector3(0f, m_SpawnAreaSize.y / 2f, 0f), m_SpawnAreaSize);
 		}
 	}
 #endif
