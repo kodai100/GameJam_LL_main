@@ -30,7 +30,7 @@ public class Shoot : MonoBehaviour {
             if (!isShooting) {
 
                 RaycastHit hit;
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+                Ray ray = playerCamera.ScreenPointToRay(new Vector2(Screen.width * 0.5f, Screen.height * 0.5f));
 
                 if (Physics.Raycast(ray, out hit)) {
                     
@@ -103,7 +103,10 @@ public class Shoot : MonoBehaviour {
             yield return null;
         }
 
+        
         currentLength = 0f;
+        arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
+
         isShooting = false;
 
         yield break;
@@ -132,6 +135,8 @@ public class Shoot : MonoBehaviour {
         }
 
         currentLength = 0f;
+        arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
+
         isShooting = false;
 
         Destroy(enemy);

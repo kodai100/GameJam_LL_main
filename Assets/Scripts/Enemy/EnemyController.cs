@@ -72,7 +72,9 @@ public class EnemyController : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		m_IsGround = Physics.Raycast(transform.position + 0.01f * transform.up, -transform.up, 0.02f);
+		var radius = transform.localScale.x;
+
+		m_IsGround = Physics.Raycast(transform.position, -transform.up, radius + 0.01f);
 	}
 
 	private void Move()
