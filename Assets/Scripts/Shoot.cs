@@ -22,31 +22,56 @@ public class Shoot : MonoBehaviour {
     void Update() {
         if (Input.GetMouseButtonDown(0)) {
 
-            // レイの交差判定
-            // レイが当たったオブジェクトを取得し、自分のポジションから角度を算出、その方向に射出
             if (!isShooting) {
-                isShooting = true;
 
                 RaycastHit hit;
                 Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
 
                 if (Physics.Raycast(ray, out hit)) {
-                    Debug.Log("Hit");
+                    
+                    if (hit.collider.gameObject.tag == "Enemy") {
+                        Debug.Log("Enemy Hit");
 
-                    GameObject enemy = hit.collider.gameObject;
+                        isShooting = true;
+                        GameObject enemy = hit.collider.gameObject;
 
-                    dir = Vector3.Normalize(enemy.transform.position - transform.position);
-                    distance = Vector3.Distance(enemy.transform.position, transform.position);
+                        dir = Vector3.Normalize(enemy.transform.position - transform.position);
+                        distance = Vector3.Distance(enemy.transform.position, transform.position);
 
-                    StartCoroutine(shootAnimation(enemy));
+                        StartCoroutine(shootAnimationAndDestroy(enemy));
+                    }
 
+                } else {
+                    StartCoroutine(shootAnimation(Input.mousePosition));
                 }
             }
 
         }
     }
 
-    IEnumerator shootAnimation(GameObject enemy) {
+    IEnumerator shootAnimation(Vector3 position) {
+        currentLength = 0f;
+        bool forward = true;
+
+        while (currentLength < 2f && forward) {
+            currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
+            yield return null;
+        }
+
+        forward = false;
+
+        while (currentLength > 0 && !forward) {
+            currentLength -= speed * 0.3f;
+            yield return null;
+        }
+
+        currentLength = 0f;
+        isShooting = false;
+
+        yield break;
+    }
+
+    IEnumerator shootAnimationAndDestroy(GameObject enemy) {
         currentLength = 0f;
         bool forward = true;
 
