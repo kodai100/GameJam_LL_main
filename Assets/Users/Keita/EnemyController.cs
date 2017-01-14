@@ -4,13 +4,25 @@
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyController : MonoBehaviour
 {
+	enum State
+	{
+		Idle, RunAway, Scared, Approach
+	}
+
 	[SerializeField]
 	private float m_Visibility;
 
 	[SerializeField]
 	private float m_TurnSpeed;
 
+	[SerializeField]
+	private float m_ScaredTime;
+
+	private State m_State;
+
 	private bool m_IsGround;
+
+	private float m_ScaredTimer;
 
 	private Rigidbody m_Rigidbody;
 
@@ -18,7 +30,9 @@ public class EnemyController : MonoBehaviour
 
 	void Awake()
 	{
+		m_State = State.Idle;
 		m_IsGround = false;
+		m_ScaredTimer = 0f;
 		m_Rigidbody = GetComponent<Rigidbody>();
 
 		// Fix later.
@@ -30,14 +44,25 @@ public class EnemyController : MonoBehaviour
 		if (!m_IsGround)
 			return;
 
-		if (SearchPlayer())
+		if (SearchPlayer ())
 		{
-			Move();
+			m_State = transform.localScale.x < m_PlayerTransform.localScale.x ? State.RunAway : State.Approach;
 		}
-		else
+		else if (m_State == State.RunAway)
 		{
-			m_Rigidbody.velocity = Vector3.zero;
+			m_State = State.Scared;
+			m_ScaredTimer = m_ScaredTime;
 		}
+		else if (m_State == State.Scared)
+		{
+			m_ScaredTimer -= Time.deltaTime;
+
+			if (m_ScaredTimer < 0f) {
+				m_State = State.Idle;
+			}
+		}
+
+		Move();
 	}
 
 	void FixedUpdate()
@@ -47,13 +72,23 @@ public class EnemyController : MonoBehaviour
 
 	private void Move()
 	{
-		if (transform.localScale.x < m_PlayerTransform.localScale.x)
+		switch (m_State)
 		{
-			RunAway();
-		}
-		else
-		{
-			Approach();
+		case State.Idle:
+			m_Rigidbody.velocity = Vector3.zero;
+			break;
+
+		case State.RunAway:
+			RunAway ();
+			break;
+
+		case State.Scared:
+			RunAway ();
+			break;
+
+		case State.Approach:
+			Approach ();
+			break;
 		}
 	}
 
