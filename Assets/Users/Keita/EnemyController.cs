@@ -82,9 +82,13 @@ public class EnemyController : MonoBehaviour
 
 	private float Scale2Speed(float scale)
 	{
-		var rate = 0.5f;
+		if (scale < float.Epsilon)
+			return 0f;
 
-		return rate * scale;
+		var rate = 2f;
+		var maxScale = 5f;
+
+		return rate * (1f - Mathf.Min (maxScale, scale) / 5f);
 	}
 
 	private Vector3 NormalizedXZDirection(Vector3 a, Vector3 b)
