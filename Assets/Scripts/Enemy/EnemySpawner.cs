@@ -65,8 +65,7 @@ public class EnemySpawner : MonoBehaviour
 				break;
 		}
 
-		var go = (GameObject)Instantiate(m_EnemyPrefab, position, Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up));
-		go.transform.localScale = Random.Range (0.5f, 1.5f) * Vector3.one;
+		Instantiate(m_EnemyPrefab, position, Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up));
 	}
 
 	private Vector3 GetSpawnPosition()
