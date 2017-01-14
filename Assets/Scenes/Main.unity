@@ -609,7 +609,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4707510225285610, guid: 4a99b3972b8d34a8a9c9cd41172116fc, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4707510225285610, guid: 4a99b3972b8d34a8a9c9cd41172116fc, type: 2}
       propertyPath: m_LocalPosition.z
@@ -643,29 +643,29 @@ Prefab:
     - target: {fileID: 137022492147511244, guid: 4a99b3972b8d34a8a9c9cd41172116fc,
         type: 2}
       propertyPath: m_AABB.m_Extent.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 137022492147511244, guid: 4a99b3972b8d34a8a9c9cd41172116fc,
         type: 2}
       propertyPath: m_AABB.m_Extent.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4707510225285610, guid: 4a99b3972b8d34a8a9c9cd41172116fc, type: 2}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4707510225285610, guid: 4a99b3972b8d34a8a9c9cd41172116fc, type: 2}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4707510225285610, guid: 4a99b3972b8d34a8a9c9cd41172116fc, type: 2}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 137022492147511244, guid: 4a99b3972b8d34a8a9c9cd41172116fc,
         type: 2}
       propertyPath: m_AABB.m_Extent.z
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 137022492147511244, guid: 4a99b3972b8d34a8a9c9cd41172116fc,
         type: 2}
@@ -694,3 +694,5 @@ MonoBehaviour:
   playerCamera: {fileID: 1887396826}
   speed: 3
   arm: {fileID: 656513294}
+  maxArmDistance: 10
+  isDebug: 0

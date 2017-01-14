@@ -27,12 +27,6 @@ public class PlayerController : MonoBehaviour {
 
 		Move (mKeyH, mKeyW);
 
-		// Debug
-		if (mKeyJump) {
-			Combine (0.5f);
-			return;
-		}
-
 		// ジャンプ
 		if (mIsGround && mKeyJump) {
 			GetComponent<Rigidbody> ().AddForce (new Vector3(0f, mJumpPower, 0f), ForceMode.Impulse);
@@ -61,10 +55,7 @@ public class PlayerController : MonoBehaviour {
 		GameObject.FindGameObjectWithTag("MainCamera").transform.parent.transform.localPosition -= new Vector3(0f, 0f, enemyScale);
 
 		// Clothコンポーネントの影響でしわしわになるので再アタッチする
-		//Destroy(gameObject.GetComponent<Cloth>());
-		//Cloth cloth = new Cloth ();
-		//cloth.stretchingStiffness 	= 0.95f;
-		//cloth.bendingStiffness 		= 0.95f;
+
 
 		// 移動力やジャンプ力が減る(TODO)
 
