@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Rigidbody))]
 public class EnemyController : MonoBehaviour
 {
 	[SerializeField]
@@ -8,26 +10,50 @@ public class EnemyController : MonoBehaviour
 	[SerializeField]
 	private float m_TurnSpeed;
 
+	private bool m_IsGround;
+
+	private Rigidbody m_Rigidbody;
+
 	private Transform m_PlayerTransform;
 
 	void Awake()
 	{
+		m_IsGround = false;
+		m_Rigidbody = GetComponent<Rigidbody>();
+
 		// Fix later.
 		m_PlayerTransform = GameObject.Find("Player").transform;
 	}
 
 	void Update ()
 	{
+		if (!m_IsGround)
+			return;
+
 		if (SearchPlayer())
 		{
-			if (transform.localScale.x < m_PlayerTransform.localScale.x)
-			{
-				RunAway();
-			}
-			else
-			{
-				Approach();
-			}
+			Move();
+		}
+		else
+		{
+			m_Rigidbody.velocity = Vector3.zero;
+		}
+	}
+
+	void FixedUpdate()
+	{
+		m_IsGround = m_IsGround || Physics.Raycast(transform.position, -transform.up, 0.01f);
+	}
+
+	private void Move()
+	{
+		if (transform.localScale.x < m_PlayerTransform.localScale.x)
+		{
+			RunAway();
+		}
+		else
+		{
+			Approach();
 		}
 	}
 
@@ -35,9 +61,9 @@ public class EnemyController : MonoBehaviour
 	{
 		var dir = NormalizedXZDirection(transform.position, m_PlayerTransform.position);
 
-		transform.forward = Vector3.Lerp(transform.forward, -dir, Time.deltaTime);
+		transform.forward = Vector3.Lerp(transform.forward, -dir, Time.deltaTime * m_TurnSpeed);
 
-		Move();
+		m_Rigidbody.velocity = Scale2Speed(transform.localScale.x) * transform.forward;
 	}
 
 	private void Approach()
@@ -46,14 +72,7 @@ public class EnemyController : MonoBehaviour
 
 		transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * m_TurnSpeed);
 
-		Move();
-	}
-
-	private void Move()
-	{
-		var scale = transform.localScale.x;
-
-		transform.Translate(Scale2Speed(scale) * Vector3.forward * Time.deltaTime * m_TurnSpeed);
+		m_Rigidbody.velocity = Scale2Speed(transform.localScale.x) * transform.forward;
 	}
 
 	private bool SearchPlayer()
