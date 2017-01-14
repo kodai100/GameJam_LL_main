@@ -36,20 +36,25 @@ public class EnemySpawner : MonoBehaviour
 
 		if (m_Timer < 0f)
 		{
-			Vector3 position = Vector3.zero;
-
-			// Prevent Infinite Loop.
-			for (int i = 0; i < 10; i++)
-			{
-				position = GetSpawnPosition();
-
-				if (SqrDistanceXZ(position, m_PlayerTransform.position) > m_SafetyRange * m_SafetyRange)
-					break;
-			}
-
-			Instantiate(m_EnemyPrefab, position, Quaternion.identity);
+			Spawn();
 			m_Timer = m_SpawnInterval;
 		}
+	}
+
+	private void Spawn()
+	{
+		Vector3 position = Vector3.zero;
+
+		// Prevent Infinite Loop.
+		for (int i = 0; i < 10; i++)
+		{
+			position = GetSpawnPosition();
+
+			if (SqrDistanceXZ(position, m_PlayerTransform.position) > m_SafetyRange * m_SafetyRange)
+				break;
+		}
+
+		Instantiate(m_EnemyPrefab, position, Quaternion.identity);
 	}
 
 	private Vector3 GetSpawnPosition()
