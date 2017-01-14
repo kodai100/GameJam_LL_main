@@ -135,6 +135,8 @@ public class Shoot : MonoBehaviour {
         }
 
         currentLength = 0f;
+        arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
+
         isShooting = false;
 
         Destroy(enemy);
