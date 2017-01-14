@@ -319,7 +319,7 @@ MonoBehaviour:
   m_SpawnInterval: 3
   m_InitPopulation: 30
   m_SafetyRange: 5
-  m_EnemyPrefab: {fileID: 1007486291775362, guid: 5066d391cceb74f868a1b959e6aa4029,
+  m_EnemyPrefab: {fileID: 1647279774536164, guid: 3490d1b5216024a1fab862e825e2f693,
     type: 2}
 --- !u!4 &926688947
 Transform:
