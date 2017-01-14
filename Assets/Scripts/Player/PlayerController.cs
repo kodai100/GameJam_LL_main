@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-	[SerializeField] float mJumpPower = 100f;
+	[SerializeField] float mJumpPower = 10f;
 	[SerializeField] float mMoveSpeed = 6f;
 
 	float mKeyH, mKeyW;
@@ -55,12 +55,16 @@ public class PlayerController : MonoBehaviour {
 
 	public void Combine(float enemyScale){
 
-		transform.localScale -= new Vector3 (enemyScale, enemyScale, enemyScale);
+		transform.localScale += new Vector3 (enemyScale, enemyScale, enemyScale);
 
 		// 大きさに合わせてカメラを引く
-		Transform target 	= transform.GetChild(0).transform;
-		Vector3 angle 		= (target.position - GameObject.FindGameObjectWithTag ("MainCamera").transform.position).normalized;
-		target.position -= angle * enemyScale;
+		GameObject.FindGameObjectWithTag("MainCamera").transform.parent.transform.localPosition -= new Vector3(0f, 0f, enemyScale);
+
+		// Clothコンポーネントの影響でしわしわになるので再アタッチする
+		//Destroy(gameObject.GetComponent<Cloth>());
+		//Cloth cloth = new Cloth ();
+		//cloth.stretchingStiffness 	= 0.95f;
+		//cloth.bendingStiffness 		= 0.95f;
 
 		// 移動力やジャンプ力が減る(TODO)
 
