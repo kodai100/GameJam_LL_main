@@ -434,7 +434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ShowSpawnArea: 1
   m_SpawnAreaSize: {x: 10, y: 5, z: 10}
-  m_SpawnInterval: 0.5
+  m_SpawnInterval: 5
   m_SafetyRange: 3
   m_EnemyPrefab: {fileID: 1007486291775362, guid: 5066d391cceb74f868a1b959e6aa4029,
     type: 2}

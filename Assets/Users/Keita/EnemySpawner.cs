@@ -48,6 +48,7 @@ public class EnemySpawner : MonoBehaviour
 			}
 
 			Instantiate(m_EnemyPrefab, position, Quaternion.identity);
+			m_Timer = m_SpawnInterval;
 		}
 	}
 
