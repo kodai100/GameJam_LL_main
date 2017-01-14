@@ -4,13 +4,25 @@
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyController : MonoBehaviour
 {
+	enum State
+	{
+		Idle, RunAway, Scared, Approach
+	}
+
 	[SerializeField]
 	private float m_Visibility;
 
 	[SerializeField]
 	private float m_TurnSpeed;
 
+	[SerializeField]
+	private float m_ScaredTime;
+
+	private State m_State;
+
 	private bool m_IsGround;
+
+	private float m_ScaredTimer;
 
 	private Rigidbody m_Rigidbody;
 
@@ -18,7 +30,9 @@ public class EnemyController : MonoBehaviour
 
 	void Awake()
 	{
+		m_State = State.Idle;
 		m_IsGround = false;
+		m_ScaredTimer = 0f;
 		m_Rigidbody = GetComponent<Rigidbody>();
 
 		// Fix later.
@@ -30,31 +44,64 @@ public class EnemyController : MonoBehaviour
 		if (!m_IsGround)
 			return;
 
-		if (SearchPlayer())
+		if (SearchPlayer ())
 		{
-			Move();
+			m_State = transform.localScale.x < m_PlayerTransform.localScale.x ? State.RunAway : State.Approach;
 		}
-		else
+		else if (m_State == State.Approach)
 		{
-			m_Rigidbody.velocity = Vector3.zero;
+			m_State = State.Idle;
 		}
+		else if (m_State == State.RunAway)
+		{
+			m_State = State.Scared;
+			m_ScaredTimer = m_ScaredTime;
+		}
+		else if (m_State == State.Scared)
+		{
+			m_ScaredTimer -= Time.deltaTime;
+
+			if (m_ScaredTimer < 0f)
+			{
+				m_State = State.Idle;
+			}
+		}
+
+		Move();
 	}
 
 	void FixedUpdate()
 	{
-		m_IsGround = m_IsGround || Physics.Raycast(transform.position, -transform.up, 0.01f);
+		m_IsGround = Physics.Raycast(transform.position + 0.01f * transform.up, -transform.up, 0.02f);
 	}
 
 	private void Move()
 	{
-		if (transform.localScale.x < m_PlayerTransform.localScale.x)
+		switch (m_State)
 		{
-			RunAway();
+		case State.Idle:
+			Walk ();
+			break;
+
+		case State.RunAway:
+			RunAway ();
+			break;
+
+		case State.Scared:
+			RunAway ();
+			break;
+
+		case State.Approach:
+			Approach ();
+			break;
 		}
-		else
-		{
-			Approach();
-		}
+	}
+
+	private void Walk()
+	{
+		transform.Rotate (Vector3.up * Random.Range (-10f, 10f));
+
+		m_Rigidbody.velocity = Scale2Speed(transform.localScale.x) * transform.forward / 5.0f;
 	}
 
 	private void RunAway()
@@ -62,6 +109,7 @@ public class EnemyController : MonoBehaviour
 		var dir = NormalizedXZDirection(transform.position, m_PlayerTransform.position);
 
 		transform.forward = Vector3.Lerp(transform.forward, -dir, Time.deltaTime * m_TurnSpeed);
+		transform.Rotate (Vector3.up * Random.Range (-10f, 10f));
 
 		m_Rigidbody.velocity = Scale2Speed(transform.localScale.x) * transform.forward;
 	}
@@ -82,9 +130,13 @@ public class EnemyController : MonoBehaviour
 
 	private float Scale2Speed(float scale)
 	{
-		var rate = 0.5f;
+		if (scale < float.Epsilon)
+			return 0f;
 
-		return rate * scale;
+		var rate = 2f;
+		var maxScale = 5f;
+
+		return rate * (1f - Mathf.Min (maxScale, scale) / 5f);
 	}
 
 	private Vector3 NormalizedXZDirection(Vector3 a, Vector3 b)
