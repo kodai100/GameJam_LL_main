@@ -13,6 +13,9 @@ public class EnemyController : MonoBehaviour
 	private float m_Visibility;
 
 	[SerializeField]
+	private float m_Speed;
+
+	[SerializeField]
 	private float m_TurnSpeed;
 
 	[SerializeField]
@@ -105,7 +108,7 @@ public class EnemyController : MonoBehaviour
 	{
 		transform.Rotate (Vector3.up * Random.Range (-10f, 10f));
 
-		m_Rigidbody.velocity = Scale2Speed(transform.localScale.x) * transform.forward / 5.0f;
+		m_Rigidbody.velocity = transform.forward * m_Speed / 3.0f;
 	}
 
 	private void RunAway()
@@ -115,7 +118,7 @@ public class EnemyController : MonoBehaviour
 		transform.forward = Vector3.Lerp(transform.forward, -dir, Time.deltaTime * m_TurnSpeed);
 		transform.Rotate (Vector3.up * Random.Range (-10f, 10f));
 
-		m_Rigidbody.velocity = Scale2Speed(transform.localScale.x) * transform.forward;
+		m_Rigidbody.velocity = transform.forward * m_Speed;
 	}
 
 	private void Approach()
@@ -124,23 +127,12 @@ public class EnemyController : MonoBehaviour
 
 		transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * m_TurnSpeed);
 
-		m_Rigidbody.velocity = Scale2Speed(transform.localScale.x) * transform.forward;
+		m_Rigidbody.velocity = transform.forward * m_Speed;
 	}
 
 	private bool SearchPlayer()
 	{
 		return Vector3.SqrMagnitude(transform.position - m_PlayerTransform.position) < m_Visibility * m_Visibility;
-	}
-
-	private float Scale2Speed(float scale)
-	{
-		if (scale < float.Epsilon)
-			return 0f;
-
-		var rate = 2f;
-		var maxScale = 5f;
-
-		return rate * (1f - Mathf.Min (maxScale, scale) / 5f);
 	}
 
 	private Vector3 NormalizedXZDirection(Vector3 a, Vector3 b)
