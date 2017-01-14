@@ -135,7 +135,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &114376967829806848
 MonoBehaviour:
@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mJumpPower: 10
   mMoveSpeed: 6
+  mJumpIntervalSec: 0.2
 --- !u!114 &114506542982338766
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -219,7 +220,7 @@ SkinnedMeshRenderer:
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 1, y: 1, z: 1}
+    m_Extent: {x: 0.5, y: 0.5, z: 0.5}
   m_DirtyAABB: 0
 --- !u!183 &183990106431225358
 Cloth:
