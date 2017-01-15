@@ -163,7 +163,7 @@ public class Shoot : MonoBehaviour {
 
 			StaticManager.enemyCount++;
 
-			combineProcess.Combine();
+			combineProcess.Combine(enemy.transform.localScale.x);
 
 			Debug.Log("Killed. total : " + StaticManager.enemyCount);
 		}
