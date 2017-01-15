@@ -840,7 +840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302cbd4af77864f15b56de1498747319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mJumpPower: 10
+  mJumpPower: 6
   mMoveSpeed: 3
   mJumpIntervalSec: 0.2
 --- !u!114 &114065054623457802
@@ -883,7 +883,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302cbd4af77864f15b56de1498747319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mJumpPower: 10
+  mJumpPower: 7
   mMoveSpeed: 4
   mJumpIntervalSec: 0.2
 --- !u!114 &114149080134670352
@@ -897,7 +897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302cbd4af77864f15b56de1498747319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mJumpPower: 10
+  mJumpPower: 7.5
   mMoveSpeed: 5
   mJumpIntervalSec: 0.2
 --- !u!114 &114174341102549818
@@ -949,7 +949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302cbd4af77864f15b56de1498747319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mJumpPower: 10
+  mJumpPower: 8
   mMoveSpeed: 7
   mJumpIntervalSec: 0.2
 --- !u!114 &114430003995281982
@@ -979,7 +979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302cbd4af77864f15b56de1498747319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mJumpPower: 10
+  mJumpPower: 5
   mMoveSpeed: 2
   mJumpIntervalSec: 0.2
 --- !u!114 &114533192568518294
