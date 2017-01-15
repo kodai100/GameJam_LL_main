@@ -24,12 +24,15 @@ public class EnemySpawner : MonoBehaviour
 
 	private Transform m_PlayerTransform;
 
+	private Transform m_Enemys;
+
 	private float m_Timer;
 
 	void Awake()
 	{
 		// Fix later.
 		m_PlayerTransform = GameObject.Find("PlayerParent").transform;
+		m_Enemys = GameObject.Find("Enemys").transform;
 		m_Timer = m_SpawnInterval;
 	}
 
@@ -65,7 +68,8 @@ public class EnemySpawner : MonoBehaviour
 				break;
 		}
 
-		Instantiate(m_EnemyPrefab, position, Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up));
+		var go = (GameObject)Instantiate(m_EnemyPrefab, position, Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up));
+		go.transform.SetParent(m_Enemys);
 	}
 
 	private Vector3 GetSpawnPosition()

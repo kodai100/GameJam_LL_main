@@ -80,7 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Visibility: 12
   m_Speed: 3
-  m_TurnSpeed: 5
+  m_TurnSpeed: 3
   m_ScaredTime: 3
 --- !u!135 &135610638687930954
 SphereCollider:
@@ -107,7 +107,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 46081a9f711e3154c94759b4ab9ce0a4, type: 2}
+  - {fileID: 2100000, guid: beece939dfb8e4f4f818c04cd644e43d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
