@@ -35,6 +35,7 @@ public class MainManager : MonoBehaviour {
 
 	public void Win()
 	{
+		BgmManager.Instance.Stop ();
 		StaticManager.isWin = true;
 		FadeManager.Instance.fadeColor = Color.white;
 		FadeManager.Instance.LoadLevel("Result", 1.0f);
@@ -42,6 +43,7 @@ public class MainManager : MonoBehaviour {
 
 	public void Lose()
 	{
+		BgmManager.Instance.Stop ();
 		StaticManager.isWin = false;
 		FadeManager.Instance.fadeColor = Color.black;
 		FadeManager.Instance.LoadLevel("Result", 1.0f);
