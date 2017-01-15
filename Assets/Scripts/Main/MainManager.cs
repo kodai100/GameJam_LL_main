@@ -30,10 +30,8 @@ public class MainManager : MonoBehaviour {
 
 	void Start()
 	{
-		if (BgmManager.Instance.CurrentAudioSource != null && !BgmManager.Instance.CurrentAudioSource.isPlaying)
-		{
-			BgmManager.Instance.Play("main");
-		}
+		BgmManager.Instance.StopImmediately();
+		BgmManager.Instance.Play("main");
 	}
 
 	void Update() {
