@@ -9,25 +9,27 @@ using UnityEngine.SceneManagement;
 
 public class ResultController : MonoBehaviour
 {
-    float time = 0;
-    
-    void Update()
-    {
-        //左クリックで遷移
-        if (Input.GetMouseButton(0))
-        {
-            SceneManager.LoadScene("Title");
-        }
+	IEnumerator Start()
+	{
+		for (var t = 0f; t < 10f; t += Time.deltaTime)
+		{
+			yield return null;
+		}
 
-        time += Time.deltaTime;
+		FadeManager.Instance.fadeColor = Color.black;
+		FadeManager.Instance.LoadLevel("Title", 1.0f);
+	}
 
-        if(time >= 10)
-        {
-            time = 0;
+	public void ToTitle()
+	{
+		FadeManager.Instance.fadeColor = Color.black;
+		FadeManager.Instance.LoadLevel("Title", 1.0f);
+	}
 
-            SceneManager.LoadScene("Title");
-
-        }
-    }
+	public void ToMain()
+	{
+		FadeManager.Instance.fadeColor = Color.white;
+		FadeManager.Instance.LoadLevel("Main", 0.5f);
+	}
 
 }
