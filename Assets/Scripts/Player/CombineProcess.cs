@@ -16,6 +16,10 @@ public class CombineProcess : MonoBehaviour{
 		playerMaterial = GetComponent<Renderer>().material;
 	}
 
+	void OnEnable(){
+		StaticManager.playerScale = transform.localScale.x;
+	}
+
 	public void Combine(){
 		
 		mCnt++;
