@@ -56,7 +56,7 @@ public class CombineProcess : MonoBehaviour{
 		}
 
 		// カメラを引く
-		GameObject.FindGameObjectWithTag("MainCamera").transform.parent.transform.localPosition -= new Vector3(0f, 0f, 1f);
+		GameObject.FindGameObjectWithTag("MainCamera").transform.parent.transform.localPosition -= new Vector3(0f, 0f, 2f);
 
 		next.SetActive (true);
 		next.GetComponentInChildren<Rigidbody> ().transform.position = transform.position;
