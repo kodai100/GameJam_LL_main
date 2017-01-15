@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Visibility: 10
-  m_Speed: 1
+  m_Speed: 4
   m_TurnSpeed: 5
   m_ScaredTime: 3
 --- !u!135 &135353736586818526
