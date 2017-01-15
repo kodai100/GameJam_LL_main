@@ -24,12 +24,12 @@ public class WinOrLose : MonoBehaviour
 
         if (win == true)
         {
-            this.GetComponent<Text>().text = "YOU WIN";
+            this.GetComponent<Text>().text = "YOU SURVIVE";
         }
 
         if (win == false)
         {
-            this.GetComponent<Text>().text = "YOU LOSE";
+            this.GetComponent<Text>().text = "EATEN...";
         }
 
     }
