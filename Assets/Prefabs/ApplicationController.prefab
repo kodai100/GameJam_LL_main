@@ -182,4 +182,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebugMode: 0
   MaxAudioSources: 10
-  Volume: 1
+  Volume: 0.4
