@@ -94,6 +94,7 @@ public class Shoot : MonoBehaviour {
         currentLength = 0f;
         bool forward = true;
 
+        currentLength /= transform.parent.transform.localScale.z;
         while (currentLength < distance && forward) {
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
             arm.transform.position = transform.position + currentLength * dir * 0.5f;
@@ -124,7 +125,8 @@ public class Shoot : MonoBehaviour {
         currentLength = 0f;
         bool forward = true;
 
-        while(currentLength < distance && forward) {
+        currentLength /= transform.parent.transform.localScale.z;
+        while (currentLength < distance && forward) {
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
             arm.transform.position = transform.position + currentLength * dir * 0.5f;
             currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
