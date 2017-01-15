@@ -8,6 +8,7 @@ public class Shoot : MonoBehaviour {
     public float speed = 0.1f;
     public GameObject arm;
     public float maxArmDistance = 10f;
+    [HideInInspector] public bool isShooting;
     public bool isDebug = false;
     #endregion public
 
@@ -16,7 +17,6 @@ public class Shoot : MonoBehaviour {
     Vector3 dir;
     float distance;
     float currentLength = 0f;
-    bool isShooting;
     Material playerMaterial;
 
     CombineProcess combineProcess;
@@ -93,8 +93,7 @@ public class Shoot : MonoBehaviour {
         isShooting = true;
         currentLength = 0f;
         bool forward = true;
-
-        currentLength /= transform.parent.transform.localScale.z;
+        
         while (currentLength < distance && forward) {
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
             arm.transform.position = transform.position + currentLength * dir * 0.5f;
@@ -125,7 +124,7 @@ public class Shoot : MonoBehaviour {
         currentLength = 0f;
         bool forward = true;
 
-        currentLength /= transform.parent.transform.localScale.z;
+        
         while (currentLength < distance && forward) {
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
             arm.transform.position = transform.position + currentLength * dir * 0.5f;

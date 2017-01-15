@@ -12,8 +12,11 @@ public class CombineProcess : MonoBehaviour{
 	int mId  = 1;
 	Material playerMaterial;
 
+    Shoot shootScript;
+
 	void Awake(){
 		playerMaterial = GetComponent<Renderer>().material;
+        shootScript = GetComponent<Shoot>();
 	}
 
 	void OnEnable(){
@@ -48,28 +51,36 @@ public class CombineProcess : MonoBehaviour{
 	}
 
 	void OnCollisionEnter(Collision other) {
-	
-		// 敵に当たったら
-		if(other.gameObject.tag == "Enemy"){
+
+        if (!shootScript.isShooting)
+        {
+            // 敵に当たったら
+            if (other.gameObject.tag == "Enemy")
+            {
 
 
-			// 吸収
-			if (gameObject.transform.lossyScale.x >= other.gameObject.transform.lossyScale.x) {
-				playerMaterial.SetColor ("_Color", other.gameObject.GetComponent<Renderer> ().material.GetColor ("_Color"));
+                // 吸収
+                if (gameObject.transform.lossyScale.x >= other.gameObject.transform.lossyScale.x)
+                {
+                    playerMaterial.SetColor("_Color", other.gameObject.GetComponent<Renderer>().material.GetColor("_Color"));
 
-				Destroy (other.gameObject);
+                    Destroy(other.gameObject);
 
-				StaticManager.enemyCount++;
+                    StaticManager.enemyCount++;
 
-				Combine ();
+                    Combine();
 
-				Debug.Log ("Killed. total : " + StaticManager.enemyCount);
-			}
-			else {	// GAMEOVER
-				Debug.Log("GAMEOVER");
-				SceneManager.LoadScene ("Result");
-			}
-		}
+                    Debug.Log("Killed. total : " + StaticManager.enemyCount);
+                }
+                else
+                {   // GAMEOVER
+                    Debug.Log("GAMEOVER");
+                    SceneManager.LoadScene("Result");
+                }
+            }
+        }
+
+		
 
 	}
 
