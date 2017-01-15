@@ -93,6 +93,9 @@ public class Shoot : MonoBehaviour {
     #endregion MonoBehaviourFuncs
 
     IEnumerator shootAnimation() {
+
+        SeManager.Instance.Play("Tongue");
+
         isShooting = true;
         currentLength = 0f;
         bool forward = true;
@@ -123,6 +126,9 @@ public class Shoot : MonoBehaviour {
     }
 
     IEnumerator shootAnimationAndDestroy(GameObject enemy) {
+
+        SeManager.Instance.Play("Tongue");
+
         isShooting = true;
         currentLength = 0f;
         bool forward = true;
