@@ -28,12 +28,12 @@ public class CombineProcess : MonoBehaviour{
 		StaticManager.playerScale = transform.localScale.x;
 	}
 
-	public void Combine(float amount = 0f){
+	public void Combine(float amount){
 		m_Amount += amount;
 
 		if (isDebug)
 		{
-			Debug.Log("Eat " + amount + "g slime");
+			Debug.Log("Eat " + m_Amount + "/" + m_RequireAmount + " slime");
 		}
 
 		if (m_Amount < m_RequireAmount) {
@@ -85,7 +85,7 @@ public class CombineProcess : MonoBehaviour{
 
                     StaticManager.enemyCount++;
 
-                    Combine();
+					Combine(other.transform.localScale.x);
 
 					if (isDebug) {
 						Debug.Log("Killed. total : " + StaticManager.enemyCount);
