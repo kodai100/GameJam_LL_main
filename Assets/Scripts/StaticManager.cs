@@ -8,7 +8,7 @@ public class StaticManager{
 
 	public static Vector3 playerPos = Vector3.zero;
 
-	public static float playerScale = 0f;
+	public static float playerScale = 1f;
 
 	public static bool isWin = false;
 }

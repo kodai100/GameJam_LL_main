@@ -24,7 +24,8 @@ public class MainManager : MonoBehaviour {
 		m_Stopwatch = 0f;
 		StaticManager.enemyCount = 0;
 		StaticManager.playerPos = Vector3.zero;
-		StaticManager.playerScale = 0f;
+		StaticManager.playerScale = 1f;
+		StaticManager.isWin = false;
 	}
 
 	void Start()
