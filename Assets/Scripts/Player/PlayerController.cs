@@ -34,7 +34,10 @@ public class PlayerController : MonoBehaviour {
 
 		// ジャンプ
 		if ((mTime >= mJumpIntervalSec) && mKeyJump && CheckGrounded()) {
-			SeManager.Instance.Play ("jump");
+
+			string seName = (StaticManager.playerScale < 3f) ? "Jump" : "JumpBig";
+			SeManager.Instance.Play (seName);
+
 			GetComponent<Rigidbody> ().AddForce (new Vector3(0f, mJumpPower, 0f), ForceMode.Impulse);
 			mTime = 0f;
 		}
