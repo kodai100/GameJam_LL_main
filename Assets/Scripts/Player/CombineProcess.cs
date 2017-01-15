@@ -77,6 +77,8 @@ public class CombineProcess : MonoBehaviour{
 
                     StaticManager.enemyCount++;
 
+					Debug.Log(other.gameObject.transform.localScale);
+
                     Combine();
 
 					if (isDebug) {
