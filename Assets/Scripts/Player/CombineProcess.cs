@@ -33,6 +33,7 @@ public class CombineProcess : MonoBehaviour{
 	public void Combine(float amount){
 		m_Amount += amount;
 		StaticManager.amount = m_Amount;
+		SeManager.Instance.Play ("Eat");
 
 		if (isDebug)
 		{
