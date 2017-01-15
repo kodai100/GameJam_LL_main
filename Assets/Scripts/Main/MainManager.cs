@@ -22,9 +22,16 @@ public class MainManager : MonoBehaviour {
 
 	void Awake() {
 		m_Stopwatch = 0f;
+		StaticManager.enemyCount = 0;
+		StaticManager.playerPos = Vector3.zero;
+		StaticManager.playerScale = 0f;
+	}
 
-		if (!BgmManager.Instance.CurrentAudioSource.isPlaying) {
-			BgmManager.Instance.Play ("main");
+	void Start()
+	{
+		if (BgmManager.Instance.CurrentAudioSource != null && !BgmManager.Instance.CurrentAudioSource.isPlaying)
+		{
+			BgmManager.Instance.Play("main");
 		}
 	}
 
