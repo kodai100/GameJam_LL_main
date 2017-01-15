@@ -15,8 +15,8 @@ public class CombineProcess : MonoBehaviour{
     Shoot shootScript;
 
 	void Awake(){
-		playerMaterial = GetComponent<Renderer>().material;
-        shootScript = GetComponent<Shoot>();
+		playerMaterial  = GetComponent<Renderer>().material;
+        shootScript 	= GetComponent<Shoot>();
 	}
 
 	public void Combine(){
@@ -30,7 +30,7 @@ public class CombineProcess : MonoBehaviour{
 
 		GameObject next;
 		try{
-			next = transform.parent.FindChild ((mId + 1).ToString ()).gameObject;
+			next = transform.parent.parent.FindChild ((mId + 1).ToString ()).gameObject;
 		}
 		catch(NullReferenceException e){
 			Debug.Log("Evolution limit");
@@ -41,7 +41,10 @@ public class CombineProcess : MonoBehaviour{
 		GameObject.FindGameObjectWithTag("MainCamera").transform.parent.transform.localPosition -= new Vector3(0f, 0f, 1f);
 
 		next.SetActive (true);
-		next.GetComponent<CombineProcess> ().SetId (mId + 1);
+		next.GetComponentInChildren<Rigidbody> ().transform.position = transform.position;
+		next.GetComponentInChildren<CombineProcess> ().SetId (mId + 1);
+
+		gameObject.transform.parent.gameObject.SetActive (false);
 		gameObject.SetActive (false);
 
 	}
