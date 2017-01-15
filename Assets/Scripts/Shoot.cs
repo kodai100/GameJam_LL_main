@@ -93,6 +93,9 @@ public class Shoot : MonoBehaviour {
     #endregion MonoBehaviourFuncs
 
     IEnumerator shootAnimation() {
+
+        SeManager.Instance.Play("Tongue");
+
         isShooting = true;
         currentLength = 0f;
         bool forward = true;
@@ -123,6 +126,9 @@ public class Shoot : MonoBehaviour {
     }
 
     IEnumerator shootAnimationAndDestroy(GameObject enemy) {
+
+        SeManager.Instance.Play("Tongue");
+
         isShooting = true;
         currentLength = 0f;
         bool forward = true;
@@ -134,6 +140,11 @@ public class Shoot : MonoBehaviour {
             arm.transform.localPosition = transform.localPosition + currentLength * dir * 0.5f;
             currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
             yield return null;
+        }
+
+        if (!canEat)
+        {
+            SeManager.Instance.Play("Reflect");
         }
 
         forward = false;
@@ -154,6 +165,7 @@ public class Shoot : MonoBehaviour {
         arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
 
         isShooting = false;
+
 
 		if (canEat)
 		{
