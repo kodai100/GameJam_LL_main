@@ -25,7 +25,7 @@ public class EnemyDown : MonoBehaviour
             i++;
         }
 
-        this.GetComponent<Text>().text = "TOTAL" + i + "体吸収!!";
+        this.GetComponent<Text>().text = "Eat : " + i + "!!";
 
         //time += Time.deltaTime;
         //Debug.Log(time);
