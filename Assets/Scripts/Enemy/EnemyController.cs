@@ -10,6 +10,9 @@ public class EnemyController : MonoBehaviour
 	}
 
 	[SerializeField]
+	private bool m_IsDebug;
+
+	[SerializeField]
 	private float m_Visibility;
 
 	[SerializeField]
@@ -80,6 +83,14 @@ public class EnemyController : MonoBehaviour
 		var radius = transform.localScale.x;
 
 		m_IsGround = Physics.Raycast(transform.position, -transform.up, radius + 0.01f);
+
+#if UNITY_EDITOR
+		if (m_IsDebug)
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawRay(transform.position, -transform.up * (radius + 0.01f));
+		}
+#endif
 	}
 
 	private void Move()
