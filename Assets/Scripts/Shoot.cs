@@ -13,7 +13,7 @@ public class Shoot : MonoBehaviour {
     #endregion public
 
     #region private
-	Camera playerCamera;
+    Camera playerCamera;
     Vector3 dir;
     float distance;
     float currentLength = 0f;
@@ -31,6 +31,9 @@ public class Shoot : MonoBehaviour {
     }
     
     void Update() {
+
+        arm.transform.localPosition = transform.localPosition;
+
         if (Input.GetMouseButtonDown(0)) {
 
             if (!isShooting) {
@@ -96,7 +99,7 @@ public class Shoot : MonoBehaviour {
         
         while (currentLength < distance && forward) {
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
-            arm.transform.position = transform.position + currentLength * dir * 0.5f;
+            arm.transform.localPosition = transform.localPosition + currentLength * dir * 0.5f;
             currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
             yield return null;
         }
@@ -105,7 +108,7 @@ public class Shoot : MonoBehaviour {
 
         while (currentLength > 0 && !forward) {
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
-            arm.transform.position = transform.position + currentLength * dir * 0.5f;
+            arm.transform.localPosition = transform.localPosition + currentLength * dir * 0.5f;
             currentLength -= speed * 0.3f;
             yield return null;
         }
@@ -127,7 +130,7 @@ public class Shoot : MonoBehaviour {
         
         while (currentLength < distance && forward) {
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
-            arm.transform.position = transform.position + currentLength * dir * 0.5f;
+            arm.transform.localPosition = transform.localPosition + currentLength * dir * 0.5f;
             currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
             yield return null;
         }
@@ -137,7 +140,7 @@ public class Shoot : MonoBehaviour {
         while(currentLength > 0 && !forward) {
             enemy.transform.position = transform.position + currentLength * dir;
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
-            arm.transform.position = transform.position + currentLength * dir * 0.5f;
+            arm.transform.localPosition = transform.localPosition + currentLength * dir * 0.5f;
             currentLength -= speed * 0.3f;
             yield return null;
         }
