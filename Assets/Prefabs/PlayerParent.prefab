@@ -812,7 +812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d876f5676ae354b6c895029d764bf8c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mRequiredNum: 10
+  mRequiredNum: 3
 --- !u!114 &114612442942885590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -985,7 +985,7 @@ SkinnedMeshRenderer:
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.16666667, y: 0.16666667, z: 0.16666667}
+    m_Extent: {x: 0.5, y: 0.5, z: 0.5}
   m_DirtyAABB: 0
 --- !u!137 &137273703087267258
 SkinnedMeshRenderer:
@@ -1114,7 +1114,7 @@ SkinnedMeshRenderer:
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.25, y: 0.25, z: 0.25}
+    m_Extent: {x: 0.5, y: 0.5, z: 0.5}
   m_DirtyAABB: 0
 --- !u!137 &137879254907073420
 SkinnedMeshRenderer:
