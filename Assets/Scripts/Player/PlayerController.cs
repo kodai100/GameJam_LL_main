@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour {
 
 		// ジャンプ
 		if ((mTime >= mJumpIntervalSec) && mKeyJump && CheckGrounded()) {
+			SeManager.Instance.Play ("jump");
 			GetComponent<Rigidbody> ().AddForce (new Vector3(0f, mJumpPower, 0f), ForceMode.Impulse);
 			mTime = 0f;
 		}
