@@ -80,7 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Visibility: 12
   m_Speed: 3
-  m_TurnSpeed: 5
+  m_TurnSpeed: 3
   m_ScaredTime: 3
 --- !u!135 &135610638687930954
 SphereCollider:
