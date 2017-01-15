@@ -93,9 +93,9 @@ public class Shoot : MonoBehaviour {
         isShooting = true;
         currentLength = 0f;
         bool forward = true;
-
-        currentLength /= transform.parent.transform.localScale.z;
+        
         while (currentLength < distance && forward) {
+            currentLength /= transform.parent.transform.localScale.z;
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
             arm.transform.position = transform.position + currentLength * dir * 0.5f;
             currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
@@ -105,6 +105,7 @@ public class Shoot : MonoBehaviour {
         forward = false;
 
         while (currentLength > 0 && !forward) {
+            currentLength /= transform.parent.transform.localScale.z;
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
             arm.transform.position = transform.position + currentLength * dir * 0.5f;
             currentLength -= speed * 0.3f;
@@ -125,8 +126,9 @@ public class Shoot : MonoBehaviour {
         currentLength = 0f;
         bool forward = true;
 
-        currentLength /= transform.parent.transform.localScale.z;
+        
         while (currentLength < distance && forward) {
+            currentLength /= transform.parent.transform.localScale.z;
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
             arm.transform.position = transform.position + currentLength * dir * 0.5f;
             currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
@@ -136,6 +138,7 @@ public class Shoot : MonoBehaviour {
         forward = false;
 
         while(currentLength > 0 && !forward) {
+            currentLength /= transform.parent.transform.localScale.z;
             enemy.transform.position = transform.position + currentLength * dir;
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
             arm.transform.position = transform.position + currentLength * dir * 0.5f;
