@@ -13,7 +13,8 @@ public class TitleClick : MonoBehaviour
         //左クリックで遷移
         if (Input.GetMouseButton(0))
         {
-            SceneManager.LoadScene("Main");
+            FadeManager.Instance.fadeColor = Color.white;
+			FadeManager.Instance.LoadLevel("Main", 0.5f);
         }
     }
 }
