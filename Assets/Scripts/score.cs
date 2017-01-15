@@ -9,17 +9,18 @@ using UnityEngine.UI;
 
 
 public class score : MonoBehaviour {
-    //void showscore(float score)
-    //{
-        
-    //}
+    
 
-    //float time = 0;
-
-    //float ResultScore = MainGameController. getScore()
-
-    float ResultScore = 200;
+    float scale = StaticManager.playerScale;
+    float count = StaticManager.enemyCount;
+   
     float i = 0;
+    float ResultScore;
+
+    void Awake()
+    {
+        ResultScore = scale * count;
+    }
 
 	void Update () {
 
@@ -30,8 +31,5 @@ public class score : MonoBehaviour {
 
         this.GetComponent<Text>().text = "Score : " + i;
 
-        //time += Time.deltaTime;
-        //Debug.Log(time);
-        //this.GetComponent<Text>().text = "score" + time;
 	}
 }

@@ -13,7 +13,8 @@ public class ResultController : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        //左クリックで遷移
+        if (Input.GetMouseButton(0))
         {
             SceneManager.LoadScene("Title");
         }
