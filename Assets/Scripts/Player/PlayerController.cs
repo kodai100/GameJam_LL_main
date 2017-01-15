@@ -11,6 +11,11 @@ public class PlayerController : MonoBehaviour {
 	float mKeyH, mKeyW;
 	bool mKeyJump;
 	float mTime    = 0f;
+	Rigidbody mRigidbody;
+
+	void Awake(){
+		mRigidbody = GetComponent<Rigidbody> ();
+	}
 
 	// 入力を受け付ける
 	void Update() {
@@ -45,8 +50,8 @@ public class PlayerController : MonoBehaviour {
 		movement.y = 0.0f;
 
 		movement = movement.normalized * mMoveSpeed * Time.deltaTime;
-		transform.parent.position += movement;
-		//GetComponent<Rigidbody>().MovePosition(transform.position + movement);
+		//transform.parent.parent.position += movement;
+		GetComponent<Rigidbody>().MovePosition(transform.position + movement);
 	}
 		
 	// 真下にRayを飛ばして接地してるかを判定

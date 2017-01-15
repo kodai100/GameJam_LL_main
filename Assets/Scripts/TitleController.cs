@@ -12,7 +12,8 @@ public class TitleController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene("Main");
+			FadeManager.Instance.fadeColor = Color.white;
+			FadeManager.Instance.LoadLevel("Main", 0.5f);
         }
     }
 

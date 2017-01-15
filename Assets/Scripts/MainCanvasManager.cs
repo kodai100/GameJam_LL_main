@@ -26,6 +26,13 @@ public class MainCanvasManager : MonoBehaviour {
 	void Update () {
         time += Time.deltaTime;
         counter.text = "Num : " + StaticManager.enemyCount;
-        remainTime.text = "Time : " + (StaticManager.gameLength - time).ToString("000.00");
+
+        if(StaticManager.gameLength - time > 0) {
+            remainTime.text = "Time : " + (StaticManager.gameLength - time).ToString("000.00");
+        }
+        else {
+            remainTime.text = "Time Over";
+        }
+        
     }
 }
