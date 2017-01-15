@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class CombineProcess : MonoBehaviour{
 
@@ -44,17 +45,26 @@ public class CombineProcess : MonoBehaviour{
 
 	void OnCollisionEnter(Collision other) {
 	
+		// 敵に当たったら
 		if(other.gameObject.tag == "Enemy"){
 
-			playerMaterial.SetColor("_Color", other.gameObject.GetComponent<Renderer>().material.GetColor("_Color"));
 
-			Destroy(other.gameObject);
+			// 吸収
+			if (gameObject.transform.lossyScale.x >= other.gameObject.transform.lossyScale.x) {
+				playerMaterial.SetColor ("_Color", other.gameObject.GetComponent<Renderer> ().material.GetColor ("_Color"));
 
-			StaticManager.enemyCount++;
+				Destroy (other.gameObject);
 
-			Combine();
+				StaticManager.enemyCount++;
 
-			Debug.Log("Killed. total : " + StaticManager.enemyCount);
+				Combine ();
+
+				Debug.Log ("Killed. total : " + StaticManager.enemyCount);
+			}
+			else {	// GAMEOVER
+				Debug.Log("GAMEOVER");
+				SceneManager.LoadScene ("Result");
+			}
 		}
 
 	}
