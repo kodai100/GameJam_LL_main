@@ -9,14 +9,11 @@ public class MainManager : MonoBehaviour {
 
 	private float m_Stopwatch;
 
-	public MainManager Instance {
+	public static MainManager Instance {
 		get {
-			if (instance != this) {
-				GameObject.DestroyImmediate (this);
-				Debug.LogWarning ("There are two MainManager!!!");
-			}
-			else if (instance == null) {
-				instance = this;
+			if (instance == null)
+			{
+				instance = FindObjectOfType<MainManager>();
 			}
 
 			return instance;
@@ -30,8 +27,22 @@ public class MainManager : MonoBehaviour {
 	void Update() {
 		m_Stopwatch += Time.deltaTime;
 
-		if (m_Stopwatch > StaticManager.gameLength) {
-			SceneManager.LoadScene ("Result");
+		if (!StaticManager.isWin && m_Stopwatch > StaticManager.gameLength) {
+			Win();
 		}
+	}
+
+	public void Win()
+	{
+		StaticManager.isWin = true;
+		FadeManager.Instance.fadeColor = Color.white;
+		FadeManager.Instance.LoadLevel("Result", 1.0f);
+	}
+
+	public void Lose()
+	{
+		StaticManager.isWin = false;
+		FadeManager.Instance.fadeColor = Color.black;
+		FadeManager.Instance.LoadLevel("Result", 1.0f);
 	}
 }
