@@ -62,6 +62,8 @@ public class CombineProcess : MonoBehaviour{
 	}
 
 	void OnCollisionEnter(Collision other) {
+		if (StaticManager.isWin)
+			return;
 
         if (!shootScript.isShooting)
         {
@@ -90,8 +92,8 @@ public class CombineProcess : MonoBehaviour{
 						Debug.Log("GAMEOVER");
 					}
 
-					StaticManager.isWin = false;
-                    SceneManager.LoadScene("Result");
+					transform.root.gameObject.SetActive(false);
+					MainManager.Instance.Lose();
                 }
             }
         }
