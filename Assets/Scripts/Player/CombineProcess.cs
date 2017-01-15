@@ -33,7 +33,7 @@ public class CombineProcess : MonoBehaviour{
 	public void Combine(float amount){
 		m_Amount += amount;
 		StaticManager.amount = m_Amount;
-		SeManager.Instance.Play ("Eat");
+		SeManager.Instance.Play ("PlayerEat2");
 
 		if (isDebug)
 		{
@@ -102,6 +102,7 @@ public class CombineProcess : MonoBehaviour{
 						Debug.Log("GAMEOVER");
 					}
 
+					SeManager.Instance.Play ("EnemyEat");
 					transform.root.gameObject.SetActive(false);
 					MainManager.Instance.Lose();
                 }
