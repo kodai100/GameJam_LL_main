@@ -10,15 +10,16 @@ public class CombineProcess : MonoBehaviour{
 	private bool isDebug;
 
 	[SerializeField]
-	private int mRequiredNum;	// 大きくなるために必要な敵の数
+	private float m_RequireAmount;
 
-	int mCnt = 0;
+	float m_Amount;
 	int mId  = 1;
 	Material playerMaterial;
 
     Shoot shootScript;
 
 	void Awake(){
+		m_Amount = 0f;
 		playerMaterial  = GetComponent<Renderer>().material;
         shootScript 	= GetComponent<Shoot>();
 	}
@@ -27,10 +28,15 @@ public class CombineProcess : MonoBehaviour{
 		StaticManager.playerScale = transform.localScale.x;
 	}
 
-	public void Combine(){
-		
-		mCnt++;
-		if (mCnt < mRequiredNum) {
+	public void Combine(float amount = 0f){
+		m_Amount += amount;
+
+		if (isDebug)
+		{
+			Debug.Log("Eat " + amount + "g slime");
+		}
+
+		if (m_Amount < m_RequireAmount) {
 			return;
 		}
 
@@ -42,7 +48,7 @@ public class CombineProcess : MonoBehaviour{
 		try{
 			next = transform.parent.parent.FindChild ((mId + 1).ToString ()).gameObject;
 		}
-		catch(NullReferenceException e){
+		catch(NullReferenceException){
 			if (isDebug) {
 				Debug.Log("Evolution limit");
 			}
