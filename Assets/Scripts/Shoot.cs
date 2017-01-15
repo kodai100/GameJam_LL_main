@@ -142,6 +142,11 @@ public class Shoot : MonoBehaviour {
             yield return null;
         }
 
+        if (!canEat)
+        {
+            SeManager.Instance.Play("Reflect");
+        }
+
         forward = false;
 
         while(currentLength > 0 && !forward) {
@@ -160,6 +165,7 @@ public class Shoot : MonoBehaviour {
         arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
 
         isShooting = false;
+
 
 		if (canEat)
 		{
