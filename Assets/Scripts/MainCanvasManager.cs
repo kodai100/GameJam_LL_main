@@ -5,12 +5,21 @@ using UnityEngine.UI;
 
 public class MainCanvasManager : MonoBehaviour {
 
+	[SerializeField]
+	private Text m_Time;
+
+	[SerializeField]
+	private Text m_Eat;
+
+	[SerializeField]
+	private Text m_Evo;
+
     Text counter;
     Text remainTime;
 
     float time = 0f;
 
-	// Use this for initialization
+	/*// Use this for initialization
 	void Start () {
         foreach (Transform child in transform) {
             if (child.name == "Counter") {
@@ -20,19 +29,22 @@ public class MainCanvasManager : MonoBehaviour {
                 remainTime = child.gameObject.GetComponent<Text>();
             }
         }
-    }
+    }*/
 	
 	// Update is called once per frame
 	void Update () {
         time += Time.deltaTime;
-        counter.text = "Num : " + StaticManager.enemyCount;
 
-        if(StaticManager.gameLength - time > 0) {
-            remainTime.text = "Time : " + (StaticManager.gameLength - time).ToString("000.00");
+        if(StaticManager.gameLength - time > 0f)
+		{
+			m_Time.text = "Time : " + (StaticManager.gameLength - time).ToString("00.0");
         }
         else {
-            remainTime.text = "Time Over";
+			m_Time.text = "Time Over";
         }
-        
+
+		m_Eat.text = "EAT " + StaticManager.enemyCount;
+
+		m_Evo.text = "EVO " + StaticManager.amount.ToString("0.0") + "/" + StaticManager.requireAmount.ToString("0.0");
     }
 }

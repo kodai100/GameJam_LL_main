@@ -26,10 +26,13 @@ public class CombineProcess : MonoBehaviour{
 
 	void OnEnable(){
 		StaticManager.playerScale = transform.localScale.x;
+		StaticManager.amount = m_Amount;
+		StaticManager.requireAmount = m_RequireAmount;
 	}
 
 	public void Combine(float amount){
 		m_Amount += amount;
+		StaticManager.amount = m_Amount;
 
 		if (isDebug)
 		{
