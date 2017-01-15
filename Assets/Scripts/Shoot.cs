@@ -126,6 +126,7 @@ public class Shoot : MonoBehaviour {
         isShooting = true;
         currentLength = 0f;
         bool forward = true;
+		bool canEat = enemy.transform.localScale.x < StaticManager.playerScale;
 
         
         while (currentLength < distance && forward) {
@@ -138,7 +139,11 @@ public class Shoot : MonoBehaviour {
         forward = false;
 
         while(currentLength > 0 && !forward) {
-            enemy.transform.position = transform.position + currentLength * dir;
+			if (canEat)
+			{
+				enemy.transform.position = transform.position + currentLength * dir;
+			}
+
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
             arm.transform.localPosition = transform.localPosition + currentLength * dir * 0.5f;
             currentLength -= speed * 0.3f;
@@ -150,15 +155,18 @@ public class Shoot : MonoBehaviour {
 
         isShooting = false;
 
-        playerMaterial.SetColor("_Color", nextPlayerColor);
+		if (canEat)
+		{
+			playerMaterial.SetColor("_Color", nextPlayerColor);
 
-        Destroy(enemy);
+			Destroy(enemy);
 
-        StaticManager.enemyCount++;
+			StaticManager.enemyCount++;
 
-        combineProcess.Combine();
+			combineProcess.Combine();
 
-        Debug.Log("Killed. total : " + StaticManager.enemyCount);
+			Debug.Log("Killed. total : " + StaticManager.enemyCount);
+		}
 
         yield break;
     }

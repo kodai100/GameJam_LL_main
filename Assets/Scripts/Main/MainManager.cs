@@ -22,6 +22,7 @@ public class MainManager : MonoBehaviour {
 
 	void Awake() {
 		m_Stopwatch = 0f;
+		BgmManager.Instance.TimeToFade = 2f;
 		BgmManager.Instance.Play ("main");
 	}
 

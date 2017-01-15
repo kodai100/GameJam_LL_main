@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour {
 			mTime = 0f;
 		}
 
+		StaticManager.playerPos = transform.position;
 	}
 
 	void Move(float h, float w){
