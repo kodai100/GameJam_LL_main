@@ -6,7 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class CombineProcess : MonoBehaviour{
 
-	[SerializeField] int mRequiredNum;	// 大きくなるために必要な敵の数
+	[SerializeField]
+	private bool isDebug;
+
+	[SerializeField]
+	private int mRequiredNum;	// 大きくなるために必要な敵の数
 
 	int mCnt = 0;
 	int mId  = 1;
@@ -30,14 +34,18 @@ public class CombineProcess : MonoBehaviour{
 			return;
 		}
 
-		Debug.Log ("Evolution!!");
+		if (isDebug) {
+			Debug.Log("Evolution!!");
+		}
 
 		GameObject next;
 		try{
 			next = transform.parent.parent.FindChild ((mId + 1).ToString ()).gameObject;
 		}
 		catch(NullReferenceException e){
-			Debug.Log("Evolution limit");
+			if (isDebug) {
+				Debug.Log("Evolution limit");
+			}
 			return;
 		}
 
@@ -60,8 +68,6 @@ public class CombineProcess : MonoBehaviour{
             // 敵に当たったら
             if (other.gameObject.tag == "Enemy")
             {
-
-
                 // 吸収
                 if (gameObject.transform.lossyScale.x >= other.gameObject.transform.lossyScale.x)
                 {
@@ -73,11 +79,18 @@ public class CombineProcess : MonoBehaviour{
 
                     Combine();
 
-                    Debug.Log("Killed. total : " + StaticManager.enemyCount);
+					if (isDebug) {
+						Debug.Log("Killed. total : " + StaticManager.enemyCount);
+					}
                 }
                 else
-                {   // GAMEOVER
-                    Debug.Log("GAMEOVER");
+                {
+					// GAMEOVER
+					if (isDebug) {
+						Debug.Log("GAMEOVER");
+					}
+
+					StaticManager.isWin = false;
                     SceneManager.LoadScene("Result");
                 }
             }

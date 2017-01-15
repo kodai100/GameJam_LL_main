@@ -9,5 +9,5 @@ public class StaticManager{
 
 	public static float playerScale = 0f;
 
-	public static bool isWin = false;
+	public static bool isWin = true;
 }
