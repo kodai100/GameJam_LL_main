@@ -28,7 +28,7 @@ public class score : MonoBehaviour {
             i++;
         }
 
-        this.GetComponent<Text>().text = "score" + i;
+        this.GetComponent<Text>().text = "Score : " + i;
 
         //time += Time.deltaTime;
         //Debug.Log(time);

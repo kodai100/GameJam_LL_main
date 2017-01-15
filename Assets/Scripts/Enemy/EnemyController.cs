@@ -10,6 +10,9 @@ public class EnemyController : MonoBehaviour
 	}
 
 	[SerializeField]
+	private bool m_IsDebug;
+
+	[SerializeField]
 	private float m_Visibility;
 
 	[SerializeField]
@@ -41,7 +44,7 @@ public class EnemyController : MonoBehaviour
         GetComponent<Renderer>().material.SetColor("_Color", Color.HSVToRGB(Random.Range(0f,1f),1f,1f));
 
 		// Fix later.
-		m_PlayerTransform = GameObject.Find("PlayerParent").transform;
+		m_PlayerTransform = FindObjectOfType<PlayerController>().transform.root;
 	}
 
 	void Update ()
@@ -51,7 +54,7 @@ public class EnemyController : MonoBehaviour
 
 		if (SearchPlayer ())
 		{
-			m_State = transform.localScale.x < m_PlayerTransform.localScale.x ? State.RunAway : State.Approach;
+			m_State = transform.localScale.x < StaticManager.playerScale ? State.RunAway : State.Approach;
 		}
 		else if (m_State == State.Approach)
 		{
@@ -80,6 +83,14 @@ public class EnemyController : MonoBehaviour
 		var radius = transform.localScale.x;
 
 		m_IsGround = Physics.Raycast(transform.position, -transform.up, radius + 0.01f);
+
+#if UNITY_EDITOR
+		if (m_IsDebug)
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawRay(transform.position, -transform.up * (radius + 0.01f));
+		}
+#endif
 	}
 
 	private void Move()
@@ -127,7 +138,7 @@ public class EnemyController : MonoBehaviour
 
 		transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * m_TurnSpeed);
 
-		m_Rigidbody.velocity = transform.forward * m_Speed;
+		m_Rigidbody.velocity = transform.forward * m_Speed / 2.0f;
 	}
 
 	private bool SearchPlayer()

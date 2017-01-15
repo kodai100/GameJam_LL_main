@@ -19,6 +19,10 @@ public class CombineProcess : MonoBehaviour{
         shootScript = GetComponent<Shoot>();
 	}
 
+	void OnEnable(){
+		StaticManager.playerScale = transform.localScale.x;
+	}
+
 	public void Combine(){
 		
 		mCnt++;
