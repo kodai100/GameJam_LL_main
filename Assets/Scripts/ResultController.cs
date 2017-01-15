@@ -28,6 +28,7 @@ public class ResultController : MonoBehaviour
 
 	public void ToMain()
 	{
+		SeManager.Instance.Play("Click");
 		FadeManager.Instance.fadeColor = Color.white;
 		FadeManager.Instance.LoadLevel("Main", 0.5f);
 	}
