@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
 			string seName = (StaticManager.playerScale < 3f) ? "Jump" : "JumpBig";
 			SeManager.Instance.Play (seName);
 
-			GetComponent<Rigidbody> ().AddForce (new Vector3(0f, mJumpPower, 0f), ForceMode.Impulse);
+			mRigidbody.AddForce (new Vector3(0f, mJumpPower, 0f), ForceMode.Impulse);
 			mTime = 0f;
 		}
 
@@ -55,8 +55,7 @@ public class PlayerController : MonoBehaviour {
 		movement.y = 0.0f;
 
 		movement = movement.normalized * mMoveSpeed * Time.deltaTime;
-		//transform.parent.parent.position += movement;
-		GetComponent<Rigidbody>().MovePosition(transform.position + movement);
+		mRigidbody.MovePosition(transform.position + movement);
 	}
 		
 	// 真下にRayを飛ばして接地してるかを判定

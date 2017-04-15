@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// シーン遷移時のフェードイン・アウトを制御するためのクラス .
@@ -82,7 +83,7 @@ public class FadeManager : MonoBehaviour
 
 
 				GUI.Box (new Rect (10, 10, 300, 50 + scenes.Count * 25), "Fade Manager(Debug Mode)");
-				GUI.Label (new Rect (20, 30, 280, 20), "Current Scene : " + Application.loadedLevelName);
+				GUI.Label (new Rect (20, 30, 280, 20), "Current Scene : " + SceneManager.GetActiveScene().name);
 
 				int i = 0;
 				foreach (string sceneName in scenes) {
@@ -124,9 +125,9 @@ public class FadeManager : MonoBehaviour
 			time += Time.deltaTime;
 			yield return 0;
 		}
-		
-		//シーン切替 .
-		Application.LoadLevel (scene);
+
+        //シーン切替 .
+        SceneManager.LoadScene(scene);
 		
 		//だんだん明るく .
 		time = 0;

@@ -34,6 +34,8 @@ namespace UnityStandardAssets.Cameras
 
             // create a new RayHitComparer
             m_RayHitComparer = new RayHitComparer();
+
+            m_Ray = new Ray();
         }
 
 
