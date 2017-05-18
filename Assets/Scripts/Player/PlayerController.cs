@@ -6,8 +6,8 @@ public class PlayerController : MonoBehaviour {
 
 	[SerializeField] float mJumpPower    	= 10f;
 	[SerializeField] float mMoveSpeed 	 	= 6f;
-	[SerializeField] float mJumpIntervalSec = 0.2f;
 
+	float mJumpIntervalSec = 1f;
 	float mKeyH, mKeyW;
 	bool mKeyJump;
 	float mTime    = 0f;
@@ -35,6 +35,9 @@ public class PlayerController : MonoBehaviour {
 		// ジャンプ
 		if ((mTime >= mJumpIntervalSec) && mKeyJump && CheckGrounded()) {
 
+			// ジャンプする前にかかっている速度を0に戻す
+			mRigidbody.velocity = Vector3.zero;
+
 			string seName = (StaticManager.playerScale < 3f) ? "Jump" : "JumpBig";
 			SeManager.Instance.Play (seName);
 
@@ -61,7 +64,7 @@ public class PlayerController : MonoBehaviour {
 	// 真下にRayを飛ばして接地してるかを判定
 	bool CheckGrounded() {
 
-		float range = transform.GetComponent<SphereCollider>().radius * transform.localScale.x * 1.5f;		// 1.5f = offset
+		float range = transform.GetComponent<SphereCollider>().radius * transform.localScale.x * 1.1f;		// 1.5f = offset
 		Debug.DrawLine(transform.position, transform.position - (transform.up * range), Color.red);
 
 		RaycastHit hitCollider;
