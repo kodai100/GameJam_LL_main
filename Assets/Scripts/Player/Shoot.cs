@@ -38,7 +38,7 @@ public class Shoot : MonoBehaviour {
 
 			// 舌を伸ばしていなければ
             if (!isShooting) {
-
+				
 				// カメラから画面の中心の空間に対してRayを飛ばす
                 RaycastHit hit;
                 Ray ray = playerCamera.ScreenPointToRay(new Vector2(Screen.width * 0.5f, Screen.height * 0.5f));
@@ -105,7 +105,7 @@ public class Shoot : MonoBehaviour {
         
         while (currentLength < distance && forward) {
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
-			arm.transform.localPosition = transform.localPosition + currentLength * dir * 10f; //0.5f;
+			arm.transform.localPosition = transform.localPosition + currentLength * dir * 0.5f;
             currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
             yield return null;
         }
