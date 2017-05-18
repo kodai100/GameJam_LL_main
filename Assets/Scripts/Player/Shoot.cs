@@ -36,8 +36,10 @@ public class Shoot : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0)) {
 
+			// 舌を伸ばしていなければ
             if (!isShooting) {
 
+				// カメラから画面の中心の空間に対してRayを飛ばす
                 RaycastHit hit;
                 Ray ray = playerCamera.ScreenPointToRay(new Vector2(Screen.width * 0.5f, Screen.height * 0.5f));
 
@@ -68,11 +70,12 @@ public class Shoot : MonoBehaviour {
                         
                     }
 
-                } else {
-                    // dir = Vector3.Normalize(playerCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position);
-                    // distance = Vector3.Distance(playerCamera.ScreenToWorldPoint(Input.mousePosition), transform.position);
-                    // arm.transform.LookAt(playerCamera.ScreenToWorldPoint(Input.mousePosition));
-                    // StartCoroutine(shootAnimation());
+                } 
+				else { // Rayがヒットしない場合でも空間に対して舌を伸ばすように処理
+                    dir = Vector3.Normalize(playerCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position);
+                    distance = Vector3.Distance(playerCamera.ScreenToWorldPoint(Input.mousePosition), transform.position);
+                    arm.transform.LookAt(playerCamera.ScreenToWorldPoint(Input.mousePosition));
+                    StartCoroutine(shootAnimation());
                 }
             }
 
@@ -96,13 +99,13 @@ public class Shoot : MonoBehaviour {
 
         SeManager.Instance.Play("Tongue");
 
-        isShooting = true;
-        currentLength = 0f;
-        bool forward = true;
+        isShooting 		= true;
+        currentLength 	= 0f;
+        bool forward 	= true;
         
         while (currentLength < distance && forward) {
             arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
-            arm.transform.localPosition = transform.localPosition + currentLength * dir * 0.5f;
+			arm.transform.localPosition = transform.localPosition + currentLength * dir * 10f; //0.5f;
             currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
             yield return null;
         }

@@ -59,7 +59,6 @@ GameObject:
   - component: {fileID: 4452363635662424}
   - component: {fileID: 33904798799784864}
   - component: {fileID: 23954725966721176}
-  - component: {fileID: 114738649771295436}
   m_Layer: 0
   m_Name: Arm
   m_TagString: Untagged
@@ -199,17 +198,6 @@ MonoBehaviour:
   maxArmDistance: 10
   isShooting: 0
   isDebug: 0
---- !u!114 &114738649771295436
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1267664274720622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: affd12dd5b4a0466d96b46e58adf9a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114887503097517150
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -50,7 +50,7 @@ public class CombineProcess : MonoBehaviour{
 
 		GameObject next;
 		try{
-			next = transform.parent.parent.FindChild ((mId + 1).ToString ()).gameObject;
+			next = transform.parent.parent.Find ((mId + 1).ToString ()).gameObject;
 		}
 		catch(NullReferenceException){
 			if (isDebug) {
