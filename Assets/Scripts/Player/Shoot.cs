@@ -59,7 +59,7 @@ public class Shoot : MonoBehaviour {
                             StartCoroutine(shootAnimationAndDestroy(enemy));
                         }
                         
-                    } else {
+					} else if(hit.collider.gameObject.tag != "Player"){
                         dir = Vector3.Normalize(hit.point - transform.position);
                         distance = Vector3.Distance(hit.point, transform.position);
 
