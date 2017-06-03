@@ -9,7 +9,7 @@ namespace UnityStandardAssets.Cameras
         public float clipMoveTime = 0.05f;              // time taken to move when avoiding cliping (low value = fast, which it should be)
         public float returnTime = 0.4f;                 // time taken to move back towards desired position, when not clipping (typically should be a higher value than clipMoveTime)
         public float sphereCastRadius = 0.1f;           // the radius of the sphere used to test for object between camera and target
-        public bool visualiseInEditor;                  // toggle for visualising the algorithm through lines for the raycast in the editor
+        //public bool visualiseInEditor;                  // toggle for visualising the algorithm through lines for the raycast in the editor
         public float closestDistance = 0.5f;            // the closest distance the camera can be from the target
         public bool protecting { get; private set; }    // used for determining if there is an object between the target and the camera
         public string dontClipTag = "Player";           // don't clip against objects with this tag (useful for not clipping against the targeted object)
@@ -41,11 +41,20 @@ namespace UnityStandardAssets.Cameras
 
         private void LateUpdate()
         {
+
+			// 他のクラスからカメラの位置を書き換えられた場合、それを許容する
+			if(m_CurrentDist != m_Cam.localPosition.magnitude){
+				m_OriginalDist 	= m_Cam.localPosition.magnitude;
+				m_CurrentDist 	= m_OriginalDist;
+			}
+
             // initially set the target distance
             float targetDist = m_OriginalDist;
 
             m_Ray.origin = m_Pivot.position + m_Pivot.forward*sphereCastRadius;
             m_Ray.direction = -m_Pivot.forward;
+
+			Debug.DrawRay (m_Ray.origin, m_Ray.direction);
 
             // initial check to see if start of spherecast intersects anything
             var cols = Physics.OverlapSphere(m_Ray.origin, sphereCastRadius);
@@ -54,26 +63,24 @@ namespace UnityStandardAssets.Cameras
             bool hitSomething = false;
 
             // loop through all the collisions to check if something we care about
-            for (int i = 0; i < cols.Length; i++)
-            {
+            for (int i = 0; i < cols.Length; i++){
+				
                 if ((!cols[i].isTrigger) &&
-                    !(cols[i].attachedRigidbody != null && cols[i].attachedRigidbody.CompareTag(dontClipTag)))
-                {
+                    !(cols[i].attachedRigidbody != null && cols[i].attachedRigidbody.CompareTag(dontClipTag))){
+
                     initialIntersect = true;
                     break;
                 }
             }
 
             // if there is a collision
-            if (initialIntersect)
-            {
+            if (initialIntersect){
                 m_Ray.origin += m_Pivot.forward*sphereCastRadius;
 
                 // do a raycast and gather all the intersections
                 m_Hits = Physics.RaycastAll(m_Ray, m_OriginalDist - sphereCastRadius);
             }
-            else
-            {
+            else{
                 // if there was no collision do a sphere cast to see if there were any other collisions
                 m_Hits = Physics.SphereCastAll(m_Ray, sphereCastRadius, m_OriginalDist + sphereCastRadius);
             }
@@ -113,13 +120,22 @@ namespace UnityStandardAssets.Cameras
             m_Cam.localPosition = -Vector3.forward*m_CurrentDist;
         }
 
+		// Debug
+		void OnDrawGizmos(){
+			Gizmos.color = Color.red;
+			Gizmos.DrawSphere (m_Ray.origin, sphereCastRadius);
+		}
 
         // comparer for check distances in ray cast hits
         public class RayHitComparer : IComparer
         {
+
+			//			 | more than 0 : x > y
+			// Return is | equal to 0  : x == y
+			//			 | less than 0 : x < y
             public int Compare(object x, object y)
             {
-                return ((RaycastHit) x).distance.CompareTo(((RaycastHit) y).distance);
+				return ((RaycastHit)x).distance.CompareTo (((RaycastHit)y).distance);
             }
         }
     }

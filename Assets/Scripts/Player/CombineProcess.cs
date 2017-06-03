@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+//using System.Diagnostics;
 
 public class CombineProcess : MonoBehaviour{
 
@@ -18,17 +19,28 @@ public class CombineProcess : MonoBehaviour{
 
     Shoot shootScript;
 
+	#region MonoBehaviourFuncs
 	void Awake(){
 		m_Amount = 0f;
 		playerMaterial  = GetComponent<Renderer>().material;
         shootScript 	= GetComponent<Shoot>();
 	}
 
+	#if UNITY_EDITOR
+	void Update(){
+		// [Debug]ESCキーを押すと進化する
+		if(Input.GetButtonDown("Cancel")){
+			Combine (m_RequireAmount);
+		}
+	}
+	#endif
+
 	void OnEnable(){
 		StaticManager.playerScale = transform.localScale.x;
 		StaticManager.amount = m_Amount;
 		StaticManager.requireAmount = m_RequireAmount;
 	}
+	#endregion MonoBehaviourFuncs
 
 	public void Combine(float amount){
 		m_Amount += amount;
@@ -44,23 +56,22 @@ public class CombineProcess : MonoBehaviour{
 			return;
 		}
 
-		if (isDebug) {
-			Debug.Log("Evolution!!");
-		}
-
 		GameObject next;
 		try{
 			next = transform.parent.parent.Find ((mId + 1).ToString ()).gameObject;
 		}
 		catch(NullReferenceException){
 			if (isDebug) {
-				Debug.Log("Evolution limit");
+				Debug.Log("Can not find evolved object.");
 			}
 			return;
 		}
 
 		// カメラを引く
-		GameObject.FindGameObjectWithTag("MainCamera").transform.parent.transform.localPosition -= new Vector3(0f, 0f, 2f);
+		float scaleDiff 	= next.gameObject.transform.localScale.x - transform.localScale.x;
+		GameObject camera	= GameObject.FindGameObjectWithTag("MainCamera");
+		Vector3 dirZoomOut 	= Vector3.Normalize(camera.transform.position - transform.position);
+		camera.transform.localPosition -= dirZoomOut * scaleDiff;
 
 		next.SetActive (true);
 		next.GetComponentInChildren<Rigidbody> ().transform.position = transform.position;

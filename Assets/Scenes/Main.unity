@@ -2110,6 +2110,15 @@ Prefab:
       propertyPath: isDebug
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1084093069534602, guid: b76612aa1e5b049818898ef17c168f4a, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114887503097517150, guid: b76612aa1e5b049818898ef17c168f4a,
+        type: 2}
+      propertyPath: isDebug
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b76612aa1e5b049818898ef17c168f4a, type: 2}
   m_IsPrefabParent: 0
@@ -3305,7 +3314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1101936145
 Transform:
   m_ObjectHideFlags: 0
