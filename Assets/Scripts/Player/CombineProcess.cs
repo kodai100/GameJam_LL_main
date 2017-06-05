@@ -28,8 +28,8 @@ public class CombineProcess : MonoBehaviour{
 
 	#if UNITY_EDITOR
 	void Update(){
-		// [Debug]ESCキーを押すと進化する
-		if(Input.GetButtonDown("Cancel")){
+		// [Debug]Jキーを押すと進化する
+		if(Input.GetKeyDown(KeyCode.J)){
 			Combine (m_RequireAmount);
 		}
 	}

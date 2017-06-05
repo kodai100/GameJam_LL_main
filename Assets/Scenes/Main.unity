@@ -3478,9 +3478,9 @@ MonoBehaviour:
   clipMoveTime: 0.05
   returnTime: 0.4
   sphereCastRadius: 0.1
-  visualiseInEditor: 1
-  closestDistance: 0.5
+  closestDistance: 2
   dontClipTag: Player
+  againstObstacleRayLength: 1
 --- !u!114 &1279915385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3495,8 +3495,8 @@ MonoBehaviour:
   m_Target: {fileID: 0}
   m_AutoTargetPlayer: 1
   m_UpdateType: 0
-  m_MoveSpeed: 5
-  m_TurnSpeed: 5
+  m_MoveSpeed: 10
+  m_TurnSpeed: 1
   m_TurnSmoothing: 0
   m_TiltMax: 75
   m_TiltMin: 45
@@ -3525,7 +3525,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1279915383}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.078047514, y: 0.041197777, z: 0.6849456}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1348645149}
@@ -4617,7 +4617,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1887396821}
   m_LocalRotation: {x: 0, y: 0.000000063325004, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: -4}
+  m_LocalPosition: {x: -0, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1348645149}
