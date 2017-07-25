@@ -14,9 +14,7 @@ public class Shoot : MonoBehaviour {
 
     #region private
     Camera playerCamera;
-    Vector3 dir;
-    float distance;
-    float currentLength = 0f;
+
     Material playerMaterial;
 
     CombineProcess combineProcess;
@@ -26,19 +24,24 @@ public class Shoot : MonoBehaviour {
     #region MonoBehaviourFuncs
     void Start() {
         combineProcess = gameObject.GetComponent<CombineProcess>();
-        playerMaterial = GetComponent<Renderer>().material;
+        playerMaterial = GetComponentInChildren<Renderer>().material;
 		playerCamera   = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
     
     void Update() {
 
-        arm.transform.localPosition = transform.localPosition;
-
         if (Input.GetMouseButtonDown(0)) {
 
 			// 舌を伸ばしていなければ
             if (!isShooting) {
-				
+
+				// カメラの中心空間に対して舌を伸ばす
+				Vector3 dir = playerCamera.ScreenPointToRay(new Vector2(Screen.width * 0.5f, Screen.height * 0.5f)).direction;
+				float distance = maxArmDistance;
+				arm.transform.LookAt (transform.position + dir * distance);
+				StartCoroutine(shootAnimation (dir, distance));
+
+				/*
 				// カメラから画面の中心の空間に対してRayを飛ばす
                 RaycastHit hit;
                 Ray ray = playerCamera.ScreenPointToRay(new Vector2(Screen.width * 0.5f, Screen.height * 0.5f));
@@ -77,11 +80,13 @@ public class Shoot : MonoBehaviour {
                     arm.transform.LookAt(playerCamera.ScreenToWorldPoint(Input.mousePosition));
                     StartCoroutine(shootAnimation());
                 }
+				*/
             }
 
         }
     }
 
+	/*
     void OnDrawGizmos() {
         Gizmos.DrawLine(transform.position, transform.position + currentLength * dir);
         Gizmos.DrawWireSphere(transform.position, maxArmDistance);
@@ -93,98 +98,47 @@ public class Shoot : MonoBehaviour {
         }
 
     }
+	*/
+
     #endregion MonoBehaviourFuncs
 
-    IEnumerator shootAnimation() {
+	IEnumerator shootAnimation(Vector3 dir, float distance) {
 
         SeManager.Instance.Play("Tongue");
 
+		Vector3 defaultLocalScale = arm.transform.localScale;
         isShooting 		= true;
-        currentLength 	= 0f;
+        float currentLength 	= 0f;
         bool forward 	= true;
         
+		// 伸びる
         while (currentLength < distance && forward) {
-            arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
-			arm.transform.localPosition = transform.localPosition + currentLength * dir * 0.5f;
+			arm.transform.localScale 	= defaultLocalScale + Vector3.forward * currentLength;
+			arm.transform.localPosition = currentLength * dir * 0.5f;
+
             currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
             yield return null;
         }
-
+			
         forward = false;
+        
+		// 縮む
+		while (currentLength > 0 && !forward) {
+			arm.transform.localScale 	= defaultLocalScale + Vector3.forward * currentLength;
+			arm.transform.localPosition = currentLength * dir * 0.5f;
 
-        while (currentLength > 0 && !forward) {
-            arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
-            arm.transform.localPosition = transform.localPosition + currentLength * dir * 0.5f;
             currentLength -= speed * 0.3f;
             yield return null;
         }
 
-        
+        // 終了処理
         currentLength = 0f;
-        arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
+		arm.transform.localPosition = Vector3.zero;
+		arm.transform.localScale 	= defaultLocalScale;
 
         isShooting = false;
 
         yield break;
     }
-
-    IEnumerator shootAnimationAndDestroy(GameObject enemy) {
-
-        SeManager.Instance.Play("Tongue");
-
-        isShooting = true;
-        currentLength = 0f;
-        bool forward = true;
-		bool canEat = enemy.transform.localScale.x < StaticManager.playerScale;
-
-        
-        while (currentLength < distance && forward) {
-            arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
-            arm.transform.localPosition = transform.localPosition + currentLength * dir * 0.5f;
-            currentLength += Mathf.Max(speed * (1 - currentLength / distance), 0.1f);
-            yield return null;
-        }
-
-        if (!canEat)
-        {
-            SeManager.Instance.Play("Reflect");
-        }
-
-        forward = false;
-
-        while(currentLength > 0 && !forward) {
-			if (canEat)
-			{
-				enemy.transform.position = transform.position + currentLength * dir;
-			}
-
-            arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
-            arm.transform.localPosition = transform.localPosition + currentLength * dir * 0.5f;
-            currentLength -= speed * 0.3f;
-            yield return null;
-        }
-
-        currentLength = 0f;
-        arm.transform.localScale = new Vector3(arm.transform.localScale.x, arm.transform.localScale.y, currentLength);
-
-        isShooting = false;
-
-
-		if (canEat)
-		{
-			playerMaterial.SetColor("_Color", nextPlayerColor);
-
-			Destroy(enemy);
-
-			StaticManager.enemyCount++;
-
-			combineProcess.Combine(enemy.transform.localScale.x);
-
-			Debug.Log("Killed. total : " + StaticManager.enemyCount);
-		}
-
-        yield break;
-    }
-
     
 }

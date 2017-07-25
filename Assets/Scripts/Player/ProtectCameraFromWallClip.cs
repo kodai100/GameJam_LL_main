@@ -1,7 +1,3 @@
-//
-// 既存の物と違い、壁を背にしているときはFPS視点にすることにする
-//
-
 using System;
 using System.Collections;
 using UnityEngine;
@@ -46,10 +42,6 @@ namespace UnityStandardAssets.Cameras
 
             m_Ray = new Ray();
             m_DelMeshObjects = new List<GameObject>();
-        }
-
-        private void Update() {
-            
         }
 
         private void LateUpdate() {

@@ -4,54 +4,65 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+	#region SerializeField variables
 	[SerializeField] float mJumpPower    	= 10f;
 	[SerializeField] float mMoveSpeed 	 	= 6f;
+	#endregion
 
+	#region private variables
 	float mJumpIntervalSec = 0.1f;
-	float mKeyH, mKeyW;
+	float mKeyX, mKeyY;
 	bool mKeyJump;
 	float mTime    = 0f;
 	Rigidbody mRigidbody;
+	#endregion
 
+	#region public methods
 	void Awake(){
 		mRigidbody = GetComponent<Rigidbody> ();
 	}
 
 	// 入力を受け付ける
 	void Update() {
-		mKeyH       = Input.GetAxis("Horizontal");
-		mKeyW       = Input.GetAxis("Vertical");
+		mKeyX       = Input.GetAxis("Horizontal");
+		mKeyY       = Input.GetAxis("Vertical");
 		mKeyJump    = Input.GetButton("Jump");
 	}
 
 	void FixedUpdate(){
-
-		if (CheckGrounded() && mTime < mJumpIntervalSec) {
-			mTime += Time.deltaTime;
-		}
 			
-		Move (mKeyH, mKeyW);
+		Move (mKeyX, mKeyY);
 
-		// ジャンプ
-		if ((mTime >= mJumpIntervalSec) && mKeyJump && CheckGrounded()) {
+		// ジャンプ処理
+		if (CheckGrounded ()) {
 
-			// ジャンプする前にかかっている速度を0に戻す
-			mRigidbody.velocity = Vector3.zero;
+			// ジャンプ後すぐにジャンプできないようにインターバルをとる
+			if (mTime < mJumpIntervalSec) {
+				mTime += Time.deltaTime;
+			}
+			else if(mKeyJump){
+				
+				// ジャンプする前にかかっている速度を0に戻す
+				mRigidbody.velocity = Vector3.zero;
 
-			string seName = (StaticManager.playerScale < 3f) ? "Jump" : "JumpBig";
-			SeManager.Instance.Play (seName);
+				string seName = (StaticManager.playerScale < 3f) ? "Jump" : "JumpBig";
+				SeManager.Instance.Play (seName);
 
-			mRigidbody.AddForce (new Vector3(0f, mJumpPower, 0f), ForceMode.Impulse);
-			mTime = 0f;
+				mRigidbody.AddForce (new Vector3 (0f, mJumpPower, 0f), ForceMode.Impulse);
+				mTime = 0f;
+			}
 		}
 
 		StaticManager.playerPos = transform.position;
 	}
+	#endregion
 
-	void Move(float h, float w){
+	#region private method
+	// 移動を反映する
+	private void Move(float x, float y){
 		
 		// ワールド座標時の移動量に置き換え
-		Vector3 worldMove = new Vector3(h, 0.0f, w);
+		Vector3 worldMove = new Vector3(x, 0.0f, y);
 
 		// カメラの向きに合わせて移動を決定
 		Vector3 movement = GameObject.FindGameObjectWithTag("MainCamera").transform.rotation * worldMove;
@@ -62,7 +73,7 @@ public class PlayerController : MonoBehaviour {
 	}
 		
 	// 真下にRayを飛ばして接地してるかを判定
-	bool CheckGrounded() {
+	private bool CheckGrounded() {
 
 		float range = transform.GetComponent<SphereCollider>().radius * transform.localScale.x * 1.5f;		// 1.5f = offset
 		Debug.DrawLine(transform.position, transform.position - (transform.up * range), Color.red);
@@ -74,5 +85,6 @@ public class PlayerController : MonoBehaviour {
 
 		return false;
 	}
+	#endregion
 
 }
