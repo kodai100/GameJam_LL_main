@@ -19,7 +19,9 @@ public class MainCanvasManager : MonoBehaviour {
 
     float time = 0f;
 
-	/*// Use this for initialization
+    PlayerParametter mPlayerParam;
+
+    /*// Use this for initialization
 	void Start () {
         foreach (Transform child in transform) {
             if (child.name == "Counter") {
@@ -30,9 +32,13 @@ public class MainCanvasManager : MonoBehaviour {
             }
         }
     }*/
-	
-	// Update is called once per frame
-	void Update () {
+
+    void Start() {
+        mPlayerParam = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerParametter>();
+    }
+
+    // Update is called once per frame
+    void Update () {
         time += Time.deltaTime;
 
         if(StaticManager.gameLength - time > 0f)
@@ -45,6 +51,6 @@ public class MainCanvasManager : MonoBehaviour {
 
 		m_Eat.text = "EAT " + StaticManager.enemyCount;
 
-		m_Evo.text = "EVO " + StaticManager.amount.ToString("0.0") + "/" + StaticManager.requireAmount.ToString("0.0");
+        m_Evo.text = "EVO " + mPlayerParam.strRatioOfAmount();
     }
 }

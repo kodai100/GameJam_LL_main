@@ -4,22 +4,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-	#region SerializeField variables
-	[SerializeField] float mJumpPower    	= 10f;
-	[SerializeField] float mMoveSpeed 	 	= 6f;
-	#endregion
-
-	#region private variables
+    #region private variables
 	float mJumpIntervalSec = 0.1f;
 	float mKeyX, mKeyY;
 	bool mKeyJump;
 	float mTime    = 0f;
 	Rigidbody mRigidbody;
-	#endregion
+    PlayerParametter mPlayerParam;
+    #endregion
 
-	#region public methods
+    #region public methods
 	void Awake(){
 		mRigidbody = GetComponent<Rigidbody> ();
+        mPlayerParam = GetComponent<PlayerParametter>();
 	}
 
 	// 入力を受け付ける
@@ -45,19 +42,19 @@ public class PlayerController : MonoBehaviour {
 				// ジャンプする前にかかっている速度を0に戻す
 				mRigidbody.velocity = Vector3.zero;
 
-				string seName = (StaticManager.playerScale < 3f) ? "Jump" : "JumpBig";
+				string seName = (mPlayerParam.checkRadius() < 1.5f) ? "Jump" : "JumpBig";
 				SeManager.Instance.Play (seName);
 
-				mRigidbody.AddForce (new Vector3 (0f, mJumpPower, 0f), ForceMode.Impulse);
+				mRigidbody.AddForce (new Vector3 (0f, mPlayerParam.checkJumpPower(), 0f), ForceMode.Impulse);
 				mTime = 0f;
 			}
 		}
 
 		StaticManager.playerPos = transform.position;
 	}
-	#endregion
+    #endregion
 
-	#region private method
+    #region private method
 	// 移動を反映する
 	private void Move(float x, float y){
 		
@@ -68,7 +65,7 @@ public class PlayerController : MonoBehaviour {
 		Vector3 movement = GameObject.FindGameObjectWithTag("MainCamera").transform.rotation * worldMove;
 		movement.y = 0.0f;
 
-		movement = movement.normalized * mMoveSpeed * Time.deltaTime;
+		movement = movement.normalized * mPlayerParam.checkMoveSpeed() * Time.deltaTime;
 		mRigidbody.MovePosition(transform.position + movement);
 	}
 		
@@ -85,6 +82,6 @@ public class PlayerController : MonoBehaviour {
 
 		return false;
 	}
-	#endregion
+    #endregion
 
 }

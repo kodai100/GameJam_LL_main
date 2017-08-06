@@ -32,11 +32,14 @@ public class EnemyController : MonoBehaviour
 
 	private Rigidbody m_Rigidbody;
 
+    private PlayerParametter m_PlayerParam;
+
 	void Awake() {
 		m_State = State.Idle;
 		m_IsGround = false;
 		m_ScaredTimer = 0f;
 		m_Rigidbody = GetComponent<Rigidbody>();
+        m_PlayerParam = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerParametter>();
 
         // Random Color
         GetComponent<Renderer>().material.SetColor("_Color", Color.HSVToRGB(Random.Range(0f,1f),1f,1f));
@@ -49,7 +52,7 @@ public class EnemyController : MonoBehaviour
 
 		if (SearchPlayer ())
 		{
-			m_State = transform.localScale.x < StaticManager.playerScale ? State.RunAway : State.Approach;
+			m_State = m_PlayerParam.checkWin(gameObject) ? State.RunAway : State.Approach;
 		}
 		else if (m_State == State.Approach)
 		{

@@ -11,7 +11,6 @@ using UnityEngine.UI;
 public class score : MonoBehaviour {
     
 
-    float scale = StaticManager.playerScale;
     float count = StaticManager.enemyCount;
    
     float i = 0;
@@ -19,7 +18,7 @@ public class score : MonoBehaviour {
 
     void Awake()
     {
-        ResultScore = scale * count;
+        ResultScore = count;
     }
 
 	void Update () {

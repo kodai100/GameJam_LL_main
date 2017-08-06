@@ -4,28 +4,23 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour {
 
-    #region public
-    public float speed = 0.1f;
+    #region public variables
     public GameObject arm;
-    public float maxArmDistance = 10f;
     [HideInInspector] public bool isShooting;
-    #endregion public
+    #endregion
 
-    #region private
+    #region private variables
+    float speed = 3f;
     Camera playerCamera;
 	bool forward = false;
 
-    Material playerMaterial;
+    PlayerParametter mPlayerParam;
+    #endregion
 
-    CombineProcess combineProcess;
-    Color nextPlayerColor;
-    #endregion private
-
-    #region MonoBehaviourFuncs
+    #region private methods
     void Start() {
-        combineProcess = gameObject.GetComponent<CombineProcess>();
-        playerMaterial = GetComponentInChildren<Renderer>().material;
-		playerCamera   = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+		playerCamera    = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        mPlayerParam    = GetComponent<PlayerParametter>() ; 
     }
     
     void Update() {
@@ -37,15 +32,14 @@ public class Shoot : MonoBehaviour {
 
 				// カメラの中心空間に対して舌を伸ばす
 				Vector3 dir = playerCamera.ScreenPointToRay(new Vector2(Screen.width * 0.5f, Screen.height * 0.5f)).direction;
-				float distance = maxArmDistance;
+				float distance = mPlayerParam.checkMaxArmDistance();
 				arm.transform.LookAt (transform.position + dir * distance);
 				StartCoroutine(shootAnimation (dir, distance));
             }
 
         }
     }
-
-    #endregion MonoBehaviourFuncs
+    #endregion
 
 	IEnumerator shootAnimation(Vector3 dir, float distance) {
 
