@@ -9,15 +9,19 @@ public class PlayerController : MonoBehaviour {
 	float mKeyX, mKeyY;
 	bool mKeyJump;
 	float mTime    = 0f;
-	Rigidbody mRigidbody;
+
+    Rigidbody mRigidbody;
     PlayerParametter mPlayerParam;
+    SphereCollider mSphereCollider;
     #endregion
 
     #region public methods
 	void Awake(){
-		mRigidbody = GetComponent<Rigidbody> ();
-        mPlayerParam = GetComponent<PlayerParametter>();
-	}
+		mRigidbody      = GetComponent<Rigidbody> ();
+        mPlayerParam    = GetComponent<PlayerParametter>();
+        mSphereCollider = GetComponent<SphereCollider>();
+
+    }
 
 	// 入力を受け付ける
 	void Update() {
@@ -42,7 +46,7 @@ public class PlayerController : MonoBehaviour {
 				// ジャンプする前にかかっている速度を0に戻す
 				mRigidbody.velocity = Vector3.zero;
 
-				string seName = (mPlayerParam.checkRadius() < 1.5f) ? "Jump" : "JumpBig";
+				string seName = (mSphereCollider.radius < 1.5f) ? "Jump" : "JumpBig";
 				SeManager.Instance.Play (seName);
 
 				mRigidbody.AddForce (new Vector3 (0f, mPlayerParam.checkJumpPower(), 0f), ForceMode.Impulse);

@@ -31,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
 	void Awake()
 	{
 		// Fix later.
-		m_PlayerTransform = GameObject.Find("PlayerParent").transform;
+		m_PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 		m_Enemys = GameObject.Find("Enemys").transform;
 		m_Timer = m_SpawnInterval;
 	}

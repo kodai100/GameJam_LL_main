@@ -7,17 +7,16 @@ using UnityEngine.SceneManagement;
 
 public class HitDetection : MonoBehaviour {
 
-
-    #region SerializeField variables
-    [SerializeField] GameObject meshes;
+    #region SerializedFiled variables
+    [SerializeField] MyCameraControll myCameraControll;
     #endregion
 
     #region private variables
     PlayerParametter mPlayerParam;
     #endregion
 
-    #region priavte methods
 
+    #region priavte methods
     void Start() {
         mPlayerParam = GetComponent<PlayerParametter>();
     }
@@ -37,7 +36,7 @@ public class HitDetection : MonoBehaviour {
             else {
                 SeManager.Instance.Play("EnemyEat");
                 transform.root.gameObject.SetActive(false);
-                MainManager.Instance.Lose();
+                if (MainManager.Instance == null) { Debug.Log("a"); }//.Lose();
             }
         }
 
@@ -46,9 +45,11 @@ public class HitDetection : MonoBehaviour {
     // 敵を食べたときのプロセス
     void Combine(GameObject enemy) {
 
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-
-        meshes.GetComponentInChildren<Renderer>().material.SetColor("_Color", enemy.GetComponent<Renderer>().material.GetColor("_Color"));
+        // メッシュの色を食べた敵の色と同じにする処理
+        transform.Find(ConstantParam.PLAYER_PARENT_MESH_NAME)
+            .Find(mPlayerParam.checkMeshID().ToString())
+            .gameObject.GetComponent<Renderer>().material.SetColor
+            ("_Color", enemy.GetComponent<Renderer>().material.GetColor("_Color"));
 
         Destroy(enemy);
 
@@ -57,22 +58,17 @@ public class HitDetection : MonoBehaviour {
         // 進化できるときにifの中に入る
         if (mPlayerParam.eatEnemy(enemy.transform.localScale.x)) {
 
-            meshes.transform.Find(mPlayerParam.checkMeshIDName()).gameObject.SetActive(false);
+            // パラメータを更新
+            mPlayerParam.transformation(mPlayerParam.checkMeshID() + 1);
 
-            // パラメータを更新し、それに合わせてPlayerの性質を変化
-            mPlayerParam.evolved();
+            // カメラが引く処理
+            float meshScale = transform.Find(ConstantParam.PLAYER_PARENT_MESH_NAME).Find(mPlayerParam.checkMeshID().ToString()).localScale.x;
+            myCameraControll.moveCameraFromDefault(meshScale * 0.5f, -meshScale);
 
-            try {
-                meshes.transform.Find(mPlayerParam.checkMeshIDName()).gameObject.SetActive(true);
-            }
-            catch (NullReferenceException) {
-                Debug.Log("Can not find evolved object.");
-                return;
-            }
-
-            GetComponent<SphereCollider>().radius = mPlayerParam.checkRadius();
         }
-        
+
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+
         /*
         GameObject next;
         try {
