@@ -14,19 +14,6 @@ public class TitleClick : MonoBehaviour
 		BgmManager.Instance.Play ("title");
 	}
 
-    void Update()
-    {
-        //左クリックで遷移
-        if (Input.GetMouseButton(0))
-		{
-            SeManager.Instance.Play("Click");
-			BgmManager.Instance.TimeToFade = 0.5f;
-			BgmManager.Instance.Stop ();
-            FadeManager.Instance.fadeColor = Color.white;
-			FadeManager.Instance.LoadLevel("Main", 0.5f);
-        }
-    }
-
 	public void Func()
 	{
 		SeManager.Instance.Play("Click");
