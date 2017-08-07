@@ -36,7 +36,7 @@ public class HitDetection : MonoBehaviour {
             else {
                 SeManager.Instance.Play("EnemyEat");
                 transform.root.gameObject.SetActive(false);
-                if (MainManager.Instance == null) { Debug.Log("a"); }//.Lose();
+                MainManager.Instance.Lose();
             }
         }
 
