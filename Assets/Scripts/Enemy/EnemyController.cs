@@ -48,10 +48,8 @@ public class EnemyController : MonoBehaviour
         GetComponent<Renderer>().material.SetColor("_Color", Color.HSVToRGB(Random.Range(0f,1f),1f,1f));
 	}
 
-	void Update ()
-	{
-		if (!m_IsGround)
-			return;
+	void Update (){
+		
 
 		if (SearchPlayer ())
 		{
@@ -81,17 +79,10 @@ public class EnemyController : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		var radius = transform.localScale.x;
+		var radius = transform.localScale.x / 2.0f;
 
 		m_IsGround = Physics.Raycast(transform.position, -transform.up, radius + 0.01f);
-
-#if UNITY_EDITOR
-		if (m_IsDebug)
-		{
-			Gizmos.color = Color.red;
-			Gizmos.DrawRay(transform.position, -transform.up * (radius + 0.01f));
-		}
-#endif
+        
 	}
 
 	private void Move()
@@ -114,7 +105,11 @@ public class EnemyController : MonoBehaviour
 			Approach ();
 			break;
 		}
-	}
+
+        if (!m_IsGround) {
+            m_Rigidbody.velocity += Physics.gravity;
+        }
+    }
 
 	private void Walk()
 	{
@@ -157,8 +152,14 @@ public class EnemyController : MonoBehaviour
 #if UNITY_EDITOR
 	void OnDrawGizmosSelected()
 	{
-		Gizmos.color = Color.green;
+        Debug.Log(m_State);
+
+        Gizmos.color = Color.green;
 		Gizmos.DrawWireSphere(transform.position, m_Visibility);
-	}
+
+        var radius = transform.localScale.x / 2.0f;
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, -transform.up * (radius + 0.01f));
+    }
 #endif
 }
