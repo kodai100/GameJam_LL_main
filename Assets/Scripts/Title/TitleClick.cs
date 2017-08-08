@@ -10,7 +10,7 @@ public class TitleClick : MonoBehaviour
 {
 
 	// BGM再生用
-	void Awake(){
+	void Start(){
 		BgmManager.Instance.Play ("title");
 	}
 
