@@ -54,7 +54,6 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		StaticManager.playerPos = transform.position;
 	}
     #endregion
 

@@ -41,15 +41,15 @@ public class MainCanvasManager : MonoBehaviour {
     void Update () {
         time += Time.deltaTime;
 
-        if(StaticManager.gameLength - time > 0f)
+        if(ConstantParam.GAME_TIME_SECONDS - time > 0f)
 		{
-			m_Time.text = "Time : " + (StaticManager.gameLength - time).ToString("00.0");
+			m_Time.text = "Time : " + (ConstantParam.GAME_TIME_SECONDS - time).ToString("00.0");
         }
         else {
 			m_Time.text = "Time Over";
         }
 
-		m_Eat.text = "EAT " + StaticManager.enemyCount;
+		m_Eat.text = "EAT " + mPlayerParam.checkEnemyCount();
 
         m_Evo.text = "EVO " + mPlayerParam.strRatioOfAmount();
     }

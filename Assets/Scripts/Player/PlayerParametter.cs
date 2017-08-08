@@ -27,6 +27,7 @@ public class PlayerParametter : MonoBehaviour {
     float mMaxArmDistance;
     float mRequiredAmount;
     float mAmount;
+    float mSumAmout;
     int mEnemyCount;
     int mMeshID;
     #endregion
@@ -37,6 +38,7 @@ public class PlayerParametter : MonoBehaviour {
 
         mMeshID     = 1;
         mEnemyCount = 0;
+        mSumAmout   = 0;
 
         this.transformation(mMeshID);
     }
@@ -49,6 +51,7 @@ public class PlayerParametter : MonoBehaviour {
     public float checkMaxArmDistance()  { return mMaxArmDistance; }
     public int checkMeshID()            { return mMeshID; }
     public int checkEnemyCount()        { return mEnemyCount; }
+    public float checkSumAmout()        { return mSumAmout; }
 
 
     public string strRatioOfAmount() {
@@ -66,9 +69,8 @@ public class PlayerParametter : MonoBehaviour {
     // 進化できるならtrueを返す
     public bool eatEnemy(float enemyScale) {
         mAmount += enemyScale;
+        mSumAmout += enemyScale;
         mEnemyCount++;
-
-        Debug.Log("Eat " + mAmount + "/" + mRequiredAmount + " slime");
 
         return (mRequiredAmount <= mAmount);
     }

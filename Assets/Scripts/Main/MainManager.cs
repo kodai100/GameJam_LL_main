@@ -22,8 +22,6 @@ public class MainManager : MonoBehaviour {
 
 	void Awake() {
 		m_Stopwatch = 0f;
-		StaticManager.enemyCount = 0;
-		StaticManager.playerPos = Vector3.zero;
 		StaticManager.isWin = false;
 	}
 
@@ -36,23 +34,30 @@ public class MainManager : MonoBehaviour {
 	void Update() {
 		m_Stopwatch += Time.deltaTime;
 
-		if (!StaticManager.isWin && m_Stopwatch > StaticManager.gameLength) {
+		if (!StaticManager.isWin && m_Stopwatch > ConstantParam.GAME_TIME_SECONDS) {
 			Win();
 		}
 	}
 
-	public void Win()
-	{
-		BgmManager.Instance.Stop ();
+    void EndProcess() {
+
+        BgmManager.Instance.Stop();
+
+        PlayerParametter param = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerParametter>();
+        StaticManager.resultEnemyCount = param.checkEnemyCount();
+        StaticManager.resultAmount     = param.checkSumAmout();
+    }
+
+    public void Win(){
+        EndProcess();
 		StaticManager.isWin = true;
-		FadeManager.Instance.fadeColor = Color.white;
+        FadeManager.Instance.fadeColor = Color.white;
 		FadeManager.Instance.LoadLevel("Result", 1.0f);
 	}
 
-	public void Lose()
-	{
-		BgmManager.Instance.Stop ();
-		StaticManager.isWin = false;
+	public void Lose() {
+        EndProcess();
+        StaticManager.isWin = false;
 		FadeManager.Instance.fadeColor = Color.black;
 		FadeManager.Instance.LoadLevel("Result", 1.0f);
 	}

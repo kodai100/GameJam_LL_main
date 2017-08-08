@@ -18,6 +18,9 @@ public class EndClick : MonoBehaviour {
     }
 
     public void Push () {
+        SeManager.Instance.Play("Click");
+        BgmManager.Instance.TimeToFade = 0.5f;
+        BgmManager.Instance.Stop();
         FadeManager.Instance.fadeColor = Color.black;
         FadeManager.Instance.LoadLevel(null, 0.5f);
         mTimer = 0f;

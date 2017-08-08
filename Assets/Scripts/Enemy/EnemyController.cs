@@ -32,6 +32,8 @@ public class EnemyController : MonoBehaviour
 
 	private Rigidbody m_Rigidbody;
 
+    private GameObject m_Player;
+
     private PlayerParametter m_PlayerParam;
 
 	void Awake() {
@@ -39,7 +41,8 @@ public class EnemyController : MonoBehaviour
 		m_IsGround = false;
 		m_ScaredTimer = 0f;
 		m_Rigidbody = GetComponent<Rigidbody>();
-        m_PlayerParam = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerParametter>();
+        m_Player = GameObject.FindGameObjectWithTag("Player");
+        m_PlayerParam = m_Player.GetComponent<PlayerParametter>();
 
         // Random Color
         GetComponent<Renderer>().material.SetColor("_Color", Color.HSVToRGB(Random.Range(0f,1f),1f,1f));
@@ -122,7 +125,7 @@ public class EnemyController : MonoBehaviour
 
 	private void RunAway()
 	{
-		var dir = NormalizedXZDirection(transform.position, StaticManager.playerPos);
+		var dir = NormalizedXZDirection(transform.position, m_Player.transform.position);
 
 		transform.forward = Vector3.Lerp(transform.forward, -dir, Time.deltaTime * m_TurnSpeed);
 		transform.Rotate (Vector3.up * Random.Range (-10f, 10f));
@@ -132,7 +135,7 @@ public class EnemyController : MonoBehaviour
 
 	private void Approach()
 	{
-		var dir = NormalizedXZDirection(transform.position, StaticManager.playerPos);
+		var dir = NormalizedXZDirection(transform.position, m_Player.transform.position);
 
 		transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * m_TurnSpeed);
 
@@ -141,7 +144,7 @@ public class EnemyController : MonoBehaviour
 
 	private bool SearchPlayer()
 	{
-		return Vector3.SqrMagnitude(transform.position - StaticManager.playerPos) < m_Visibility * m_Visibility;
+		return Vector3.SqrMagnitude(transform.position - m_Player.transform.position) < m_Visibility * m_Visibility;
 	}
 
 	private Vector3 NormalizedXZDirection(Vector3 a, Vector3 b)

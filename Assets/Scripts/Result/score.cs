@@ -9,15 +9,14 @@ using UnityEngine.UI;
 
 
 public class score : MonoBehaviour {
-    
 
-    float count = StaticManager.enemyCount;
+
+    float count = StaticManager.resultAmount;
    
     float i = 0;
     float ResultScore;
 
-    void Awake()
-    {
+    void Awake(){
         ResultScore = count;
     }
 

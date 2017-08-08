@@ -10,12 +10,8 @@ using UnityEngine.UI;
 
 public class EnemyDown : MonoBehaviour
 {
-    int Down = StaticManager.enemyCount;
-
-    //float Down = MainGameController.Down()
-
-    
-    float i = 0;
+    int Down = StaticManager.resultEnemyCount;    
+    float i = 0f;
 
     void Update()
     {
@@ -26,9 +22,5 @@ public class EnemyDown : MonoBehaviour
         }
 
         this.GetComponent<Text>().text = "Eat : " + i ;
-
-        //time += Time.deltaTime;
-        //Debug.Log(time);
-        //this.GetComponent<Text>().text = "score" + time;
     }
 }
