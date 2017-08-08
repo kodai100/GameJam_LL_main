@@ -35,8 +35,8 @@ public class HitDetection : MonoBehaviour {
             }
             else {
                 SeManager.Instance.Play("EnemyEat");
-                transform.root.gameObject.SetActive(false);
                 MainManager.Instance.Lose();
+                transform.root.gameObject.SetActive(false);
             }
         }
 
@@ -68,31 +68,7 @@ public class HitDetection : MonoBehaviour {
         }
 
         GetComponent<Rigidbody>().velocity = Vector3.zero;
-
-        /*
-        GameObject next;
-        try {
-            next = transform.parent.parent.Find((mId + 1).ToString()).gameObject;
-        }
-        catch (NullReferenceException) {
-            Debug.Log("Can not find evolved object.");
-            return;
-        }
-
-        // カメラを引く
-        float scaleDiff = next.gameObject.transform.localScale.x - transform.localScale.x;
-        GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
-        Vector3 dirZoomOut = Vector3.Normalize(camera.transform.position - transform.position);
-        camera.transform.localPosition -= dirZoomOut * scaleDiff;
-
-        next.SetActive(true);
-        next.GetComponentInChildren<Rigidbody>().transform.position = transform.position;
-        //next.GetComponentInChildren<CombineProcess>().SetId(mId + 1);
-
-        gameObject.transform.parent.gameObject.SetActive(false);
-        gameObject.SetActive(false);
-        */
-
+        
     }
     #endregion
 
