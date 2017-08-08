@@ -27,13 +27,13 @@ public class MainManager : MonoBehaviour {
 
 	void Start()
 	{
-		BgmManager.Instance.StopImmediately();
+		BgmManager.Instance.Stop();
 		BgmManager.Instance.Play("main");
 	}
 
 	void Update() {
 		m_Stopwatch += Time.deltaTime;
-
+        
 		if (!StaticManager.isWin && m_Stopwatch > ConstantParam.GAME_TIME_SECONDS) {
 			Win();
 		}
