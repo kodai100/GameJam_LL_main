@@ -125,7 +125,8 @@ namespace UnityStandardAssets.Cameras
             Collider[] obstacles = Physics.OverlapCapsule(m_Cam.position, m_Pivot.position, 0.01f);
             for (int i = 0; i < obstacles.Length; i++) {
 
-                if (obstacles[i].gameObject.GetComponent<MeshRenderer>() != null) {
+				if (obstacles[i].gameObject.tag != "Enemy" &&
+					obstacles[i].gameObject.GetComponent<MeshRenderer>() != null) {
 
                     obstacles[i].gameObject.GetComponent<MeshRenderer>().enabled = false;
                     m_DelMeshObjects.Add(obstacles[i].gameObject);
