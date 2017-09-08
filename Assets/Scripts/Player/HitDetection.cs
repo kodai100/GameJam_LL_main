@@ -61,6 +61,10 @@ public class HitDetection : MonoBehaviour {
             // パラメータを更新
             mPlayerParam.transformation(mPlayerParam.checkMeshID() + 1);
 
+			// 敵グラフィックを更新
+			GameObject.FindGameObjectWithTag ("Enemy").transform.
+			parent.GetComponent<EnemyGraphController> ().UpdateAllEnemiesColor(mPlayerParam.checkCurrentMeshScale());
+
             // カメラが引く処理
             float meshScale = transform.Find(ConstantParam.PLAYER_PARENT_MESH_NAME).Find(mPlayerParam.checkMeshID().ToString()).localScale.x;
             myCameraControll.moveCameraFromDefault(meshScale * 0.5f, -meshScale);

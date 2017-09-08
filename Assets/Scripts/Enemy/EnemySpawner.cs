@@ -42,6 +42,11 @@ public class EnemySpawner : MonoBehaviour
 		{
 			Spawn ();
 		}
+
+		// 食べれる、食べれないを明確にするため、敵のMeshのOutline色を変化
+		float playerScale = m_PlayerTransform.gameObject.GetComponent<PlayerParametter>().checkCurrentMeshScale();
+		GameObject.FindGameObjectWithTag ("Enemy").transform.
+			parent.GetComponent<EnemyGraphController> ().UpdateAllEnemiesColor(playerScale);
 	}
 
 	void Update()

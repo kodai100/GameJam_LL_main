@@ -53,6 +53,10 @@ public class PlayerParametter : MonoBehaviour {
     public int checkEnemyCount()        { return mEnemyCount; }
     public float checkSumAmout()        { return mSumAmout; }
 
+	public float checkCurrentMeshScale(){
+		return transform.Find(ConstantParam.PLAYER_PARENT_MESH_NAME).transform.Find(mMeshID.ToString()).localScale.x;
+	}
+
 
     public string strRatioOfAmount() {
         return mAmount.ToString("0.0") + "/" + mRequiredAmount.ToString("0.0");
