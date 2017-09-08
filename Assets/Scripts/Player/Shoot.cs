@@ -6,6 +6,7 @@ public class Shoot : MonoBehaviour {
 
     #region public variables
     public GameObject arm;
+	[SerializeField] GameObject guideArm;
     [HideInInspector] public bool isShooting;
     #endregion
 
@@ -19,37 +20,47 @@ public class Shoot : MonoBehaviour {
 
     #region private methods
     void Start() {
-		playerCamera    = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        mPlayerParam    = GetComponent<PlayerParametter>() ; 
+		playerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        mPlayerParam = GetComponent<PlayerParametter>() ; 
     }
     
     void Update() {
 
-        if (Input.GetMouseButtonDown(0)) {
+		// 舌を伸ばす位置を計算
+		Vector3 dir = playerCamera.ScreenPointToRay (new Vector2 (Screen.width * 0.5f, Screen.height * 0.5f)).direction;
+		float distance = mPlayerParam.checkMaxArmDistance ();
+		arm.transform.LookAt (transform.position + dir * distance);
 
-			// 舌を伸ばしていなければ
-            if (!isShooting) {
+		// 伸ばす想定の位置にガイドをつける
+		Ray ray = new Ray (arm.transform.position, dir);
+		Vector3 estimatedPoint;
+		RaycastHit hitInfo;
+		if (Physics.Raycast (ray, out hitInfo, distance)) {
+			estimatedPoint = hitInfo.point;
+		}
+		else {
+			estimatedPoint = ray.GetPoint (distance);
+		}
+		guideArm.transform.position = estimatedPoint;
+		guideArm.transform.rotation = arm.transform.rotation;
 
-				// カメラの中心空間に対して舌を伸ばす
-				Vector3 dir = playerCamera.ScreenPointToRay(new Vector2(Screen.width * 0.5f, Screen.height * 0.5f)).direction;
-				float distance = mPlayerParam.checkMaxArmDistance();
-				arm.transform.LookAt (transform.position + dir * distance);
-				StartCoroutine(shootAnimation (dir, distance));
-            }
-
-        }
+		// 舌を伸ばす処理
+		if (!isShooting && Input.GetMouseButtonDown (0)) {
+				StartCoroutine (shootAnimation (dir, distance));
+		}
     }
     #endregion
 
 	IEnumerator shootAnimation(Vector3 dir, float distance) {
-
+		
         SeManager.Instance.Play("Tongue");
 
 		Vector3 defaultLocalScale = arm.transform.localScale;
 		float currentLength 	= 0f;
 		isShooting 	= true;
         forward 	= true;
-        
+		guideArm.SetActive (false);
+
 		// 伸びる
         while (currentLength < distance && forward) {
 			arm.transform.localScale 	= defaultLocalScale + Vector3.forward * currentLength;
@@ -76,6 +87,7 @@ public class Shoot : MonoBehaviour {
 		arm.transform.localScale 	= defaultLocalScale;
 
         isShooting = false;
+		guideArm.SetActive (true);
 
         yield break;
     }
