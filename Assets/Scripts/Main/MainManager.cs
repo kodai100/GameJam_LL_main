@@ -27,7 +27,6 @@ public class MainManager : MonoBehaviour {
 
 	void Start()
 	{
-		BgmManager.Instance.Stop();
 		BgmManager.Instance.Play("main");
 	}
 

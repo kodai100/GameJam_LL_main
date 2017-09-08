@@ -212,6 +212,7 @@ public class BgmManager : MonoBehaviour
 						this.fadeOutCoroutine = fadeOut (this.CurrentAudioSource, this.TimeToFade, this.CurrentAudioSource.volume, 0f);
 						StartCoroutine (this.fadeOutCoroutine);
 				}
+
 		}
 
 		/// <summary>
@@ -283,6 +284,8 @@ public class BgmManager : MonoBehaviour
 						bgm.volume = vol;
 						yield return null;
 				}
+
+				this.CurrentAudioSource = null;
 		}
 
 		/// <summary>
