@@ -34,7 +34,7 @@ public class PlayerParametter : MonoBehaviour {
 
 
     #region private methods
-    void Start() {
+    void Awake() {
 
         mMeshID     = 1;
         mEnemyCount = 0;
